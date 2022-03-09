@@ -13,7 +13,18 @@ Simple example project for solidity based contracts development
 
 * Install requirements
 
-## Development Commands
+## Development
+
+### Project Structure
+
+Based on default Truffle directory structure:
+
+* `contracts/`: Contains the Solidity source files for our smart contracts. There is an important contract in here called Migrations.sol, which we'll talk about later.
+* `migrations/`: Truffle uses a migration system to handle smart contract deployments. A migration is an additional special smart contract that keeps track of changes.
+* `test/`: Contains both JavaScript and Solidity tests for our smart contracts
+* `truffle-config.js`: Truffle configuration file
+
+### Commands
 
 * `truffle compile` - Compile
 * `truffle migrate` - Migrate
