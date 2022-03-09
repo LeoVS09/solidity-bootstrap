@@ -2,6 +2,8 @@
 
 Simple example project for solidity based contracts development
 
+Project based on [Pet Shop Truffle Box](https://trufflesuite.com/boxes/pet-shop/) and created with command `truffle unbox pet-shop`. If you want, you create project based on another [box from the list](https://trufflesuite.com/boxes/)
+
 ## Requirements
 
 * [Truffle](https://github.com/trufflesuite/truffle) - Solidity development tool suit, install by `npm install -g truffle`
@@ -10,3 +12,10 @@ Simple example project for solidity based contracts development
 ## First Start Guide
 
 * Install requirements
+
+## Development Commands
+
+* `truffle compile` - Compile
+* `truffle migrate` - Migrate
+* `truffle test` - Test contracts
+* `npm run dev` - Run dev server
