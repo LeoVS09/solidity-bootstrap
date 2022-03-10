@@ -16,6 +16,11 @@ Simple example project for solidity based contracts development
 ## First Start Guide
 
 * Install requirements
+* Instal dependencies by `npm i`
+* Start Ganache local blockchain
+* Run `truffle compile && truffle migrate` for setup contracts
+* Start dev server by `npm run dev`
+* Configure crypto wallet for interact with application, [tutorial](https://trufflesuite.com/tutorial/index.html#interacting-with-the-dapp-in-a-browser)
 
 ## Development
 
