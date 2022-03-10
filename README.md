@@ -4,6 +4,10 @@ Simple example project for solidity based contracts development
 
 > Project based on [Pet Shop Truffle Box](https://trufflesuite.com/boxes/pet-shop/) and created with command `truffle unbox pet-shop`. If you want, you create project based on another [box from the list](https://trufflesuite.com/boxes/)
 
+## Bostrap Variants
+
+* [Plain JavaScript](https://github.com/LeoVS09/solidity-bootstrap/tree/plain-javascript) - dApp without any front-end framework.
+
 ## Requirements
 
 * [Truffle](https://github.com/trufflesuite/truffle) - Solidity development tool suit, install by `npm install -g truffle`
