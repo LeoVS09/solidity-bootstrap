@@ -9,15 +9,19 @@
     "eject": "react-scripts eject"
   },
   "dependencies": {
+    "@drizzle/react-components": "^1.5.3",
     "@drizzle/react-plugin": "^1.5.3",
     "@drizzle/store": "^1.5.3",
     "@ethersproject/abi": "^5.6.0",
+    "@reduxjs/toolkit": "^1.8.0",
     "@testing-library/jest-dom": "^5.16.2",
     "@testing-library/react": "^12.1.4",
     "@testing-library/user-event": "^13.5.0",
     "cipher-base": "^1.0.4",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "react-error-overlay": "6.0.9",
+    "react-redux": "^7.2.6",
     "react-scripts": "4.0.3",
     "web-vitals": "^2.1.4"
   },

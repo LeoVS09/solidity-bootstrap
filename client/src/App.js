@@ -1,5 +1,5 @@
 import React from "react";
-import { DrizzleContext } from '@drizzle/react-plugin'
+import { useSelector, useDispatch } from 'react-redux'
 
 import logo from './logo.svg';
 import './App.css';
@@ -8,35 +8,31 @@ import SetString from "./SetString";
 
 
 
-const App = () => (
-  <DrizzleContext.Consumer>
-    {drizzleContext => {
-      const {drizzle, drizzleState, initialized} = drizzleContext;
+const App = () => { 
+  const drizzle = useSelector(state => state)
 
-      if(!initialized) {
-        return "Loading..."
-      }
+  if(!drizzle.drizzleStatus.initialized) {
+    return "Loading..."
+  }
 
-      return (
-        <div className="App">
-          <header className="App-header">
-            <img src={logo} className="App-logo" alt="logo" />
-            <p>
-              Drizzle is ready.
-            </p>
-            <ReadString
-              drizzle={drizzle}
-              drizzleState={drizzleState}
-            />
-            <SetString
-              drizzle={drizzle}
-              drizzleState={drizzleState}
-            />
-          </header>
-        </div>
-        )
-      }}
-  </DrizzleContext.Consumer>
-);
+  return (
+    <div className="App">
+      <header className="App-header">
+        <img src={logo} className="App-logo" alt="logo" />
+        <p>
+          Drizzle is ready.
+        </p>
+        <ReadString
+          drizzle={drizzle}
+          drizzleState={drizzle}
+        />
+        <SetString
+          drizzle={drizzle}
+          drizzleState={drizzle}
+        />
+      </header>
+    </div>
+  )
+};
 
 export default App;
