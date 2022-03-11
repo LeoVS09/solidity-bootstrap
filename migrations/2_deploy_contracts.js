@@ -1,5 +1,5 @@
-var Adoption = artifacts.require("Adoption");
+const MyStringStore = artifacts.require("MyStringStore");
 
 module.exports = function(deployer) {
-  deployer.deploy(Adoption);
+  deployer.deploy(MyStringStore);
 };
