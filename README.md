@@ -39,3 +39,6 @@ Based on default Truffle directory structure:
 * `truffle migrate` - Migrate
 * `truffle test` - Test contracts
 * `npm run dev` - Run dev server
+* `truffle develop` - launch test blockchain with the Truffle Develop console
+* `truffle create contract YourContractName` - scaffold a contract
+* `truffle create test YourTestName` - scaffold a test
