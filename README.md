@@ -7,6 +7,7 @@ Simple example project for solidity based contracts development
 ## Bostrap Variants
 
 * [Plain JavaScript](https://github.com/LeoVS09/solidity-bootstrap/tree/plain-javascript) - dApp without any front-end framework.
+* [React](https://github.com/LeoVS09/solidity-bootstrap/tree/react) - dApp with React framework.
 
 ## Requirements
 
