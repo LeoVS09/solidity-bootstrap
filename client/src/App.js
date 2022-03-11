@@ -5,14 +5,14 @@ import logo from './logo.svg';
 import './App.css';
 import ReadString from "./ReadString";
 import SetString from "./SetString";
+import { newContextComponents } from "@drizzle/react-components";
 
+const { AccountData, ContractData, ContractForm } = newContextComponents;
 
 
 const App = () => (
   <DrizzleContext.Consumer>
-    {drizzleContext => {
-      const {drizzle, drizzleState, initialized} = drizzleContext;
-
+    {({drizzle, drizzleState, initialized}) => {
       if(!initialized) {
         return "Loading..."
       }
@@ -31,6 +31,23 @@ const App = () => (
             <SetString
               drizzle={drizzle}
               drizzleState={drizzleState}
+            />
+          
+            <AccountData 
+              drizzle={drizzle}
+              drizzleState={drizzleState}
+              accountIndex={0}
+              units={'ether'}
+              render={({
+                address,
+                balance,
+                units,
+              }) => (
+                <div>
+                  <p>Account: {address}</p>
+                  <p>Balance: {balance} {units}</p>
+                </div>
+              )}
             />
           </header>
         </div>
