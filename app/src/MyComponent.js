@@ -1,6 +1,8 @@
 import React from "react";
 import { newContextComponents } from "@drizzle/react-components";
 import logo from "./logo.png";
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 const { AccountData, ContractData, ContractForm } = newContextComponents;
 
@@ -8,6 +10,7 @@ export const MyComponent = ({ drizzle, drizzleState }) => {
   // destructure drizzle and drizzleState from props
   return (
     <div className="App">
+      <ToastContainer />
       <div>
         <img src={logo} alt="drizzle-logo" />
         <h1>Drizzle Examples</h1>
