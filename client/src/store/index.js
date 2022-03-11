@@ -3,7 +3,7 @@ import { todosReducer, appRootSaga} from './root'
 import MyStringStore from "../contracts/MyStringStore.json";
 
 // let drizzle know what contracts we want and how to access our test blockchain
-const options = {
+export const drizzleOptions = {
   contracts: [MyStringStore],
   web3: {
     fallback: {
@@ -34,7 +34,7 @@ const appMiddlewares = [ contractEventNotifier ]
 
 // create the store
 export default generateStore({
-  drizzleOptions: options,
+  drizzleOptions,
   appMiddlewares,
   appReducers,
   appSagas,

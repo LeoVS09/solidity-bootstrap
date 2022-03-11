@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import store from './store'
+import store, {drizzleOptions} from './store'
 import { Provider } from 'react-redux'
 import './index.css';
 import App from './App';
@@ -9,12 +9,15 @@ import reportWebVitals from './reportWebVitals';
 import { Drizzle } from "@drizzle/store";
 import { DrizzleContext } from '@drizzle/react-plugin'
 
+const drizzle = new Drizzle(drizzleOptions, store);
 
 ReactDOM.render(
   <React.StrictMode>
-    <Provider store={store}>
-      <App />
-    </Provider>
+    <DrizzleContext.Provider drizzle={drizzle}>
+      <Provider store={store}>
+        <App />
+      </Provider>
+    </DrizzleContext.Provider>
   </React.StrictMode>,
   document.getElementById('root')
 );
