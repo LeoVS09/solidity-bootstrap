@@ -1,4 +1,5 @@
 import React from "react";
+import { DrizzleContext } from '@drizzle/react-plugin'
 
 import logo from './logo.svg';
 import './App.css';
@@ -7,51 +8,35 @@ import SetString from "./SetString";
 
 
 
-class App extends React.Component {
-  state = { loading: true, drizzleState: null };
+const App = () => (
+  <DrizzleContext.Consumer>
+    {drizzleContext => {
+      const {drizzle, drizzleState, initialized} = drizzleContext;
 
-  componentDidMount() {
-    const { drizzle } = this.props;
-  
-    // subscribe to changes in the store
-    this.unsubscribe = drizzle.store.subscribe(() => {
-  
-      // every time the store updates, grab the state from drizzle
-      const drizzleState = drizzle.store.getState();
-  
-      // check to see if it's ready, if so, update local component state
-      if (drizzleState.drizzleStatus.initialized) {
-        this.setState({ loading: false, drizzleState });
+      if(!initialized) {
+        return "Loading..."
       }
-    });
-  }
 
-  componentWillUnmount() {
-    this.unsubscribe();
-  }
-
-  render(){
-    if (this.state.loading) return "Loading Drizzle...";
-  
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Drizzle is ready.
-          </p>
-          <ReadString
-            drizzle={this.props.drizzle}
-            drizzleState={this.state.drizzleState}
-          />
-          <SetString
-            drizzle={this.props.drizzle}
-            drizzleState={this.state.drizzleState}
-          />
-        </header>
-      </div>
-  );
-    }
-}
+      return (
+        <div className="App">
+          <header className="App-header">
+            <img src={logo} className="App-logo" alt="logo" />
+            <p>
+              Drizzle is ready.
+            </p>
+            <ReadString
+              drizzle={drizzle}
+              drizzleState={drizzleState}
+            />
+            <SetString
+              drizzle={drizzle}
+              drizzleState={drizzleState}
+            />
+          </header>
+        </div>
+        )
+      }}
+  </DrizzleContext.Consumer>
+);
 
 export default App;

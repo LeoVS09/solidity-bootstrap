@@ -34,7 +34,7 @@ class SetString extends React.Component {
     if (!txHash) return null;
 
     // otherwise, return the transaction status
-    return `Transaction status: ${transactions[txHash] && transactions[txHash].status}`;
+    return `Transaction status: ${transactions[txHash] ? transactions[txHash].status : "Sending to blockchain..."}`;
   };
 
   render() {

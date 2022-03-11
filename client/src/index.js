@@ -5,6 +5,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 // import drizzle functions and contract artifact
 import { Drizzle } from "@drizzle/store";
+import { DrizzleContext } from '@drizzle/react-plugin'
 import MyStringStore from "./contracts/MyStringStore.json";
 
 // let drizzle know what contracts we want and how to access our test blockchain
@@ -23,7 +24,7 @@ const drizzle = new Drizzle(options);
 
 ReactDOM.render(
   <React.StrictMode>
-    <App drizzle={drizzle} />
+    <DrizzleContext.Provider drizzle={drizzle}><App /></DrizzleContext.Provider>    
   </React.StrictMode>,
   document.getElementById('root')
 );
