@@ -2,7 +2,7 @@
 
 Simple example project for solidity based contracts development
 
-> Project based on [Pet Shop Truffle Box](https://trufflesuite.com/boxes/pet-shop/) and created with command `truffle unbox pet-shop`. If you want, you create project based on another [box from the list](https://trufflesuite.com/boxes/)
+> Project based on [Drizzle Truffle Box](https://trufflesuite.com/boxes/drizzle/) and created with command `truffle unbox drizzle`. If you want, you create project based on another [box from the list](https://trufflesuite.com/boxes/)
 
 ## Bostrap Variants
 
