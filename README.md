@@ -44,3 +44,10 @@ Based on default Truffle directory structure:
 * `truffle develop` - launch test blockchain with the Truffle Develop console
 * `truffle create contract YourContractName` - scaffold a contract
 * `truffle create test YourTestName` - scaffold a test
+* `ganache` - start etherum light node
+
+### First Start Guide
+
+* Run `ganache` for start etherum node
+* Run `truffle migrate` for deploy contracts
+* Run `cd app && yarn dev` for start dApp development server

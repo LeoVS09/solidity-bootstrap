@@ -7,6 +7,8 @@
     "test": "test"
   },
   "scripts": {
+    "generate-types": "npx typechain --target=truffle-v5 'app/src/contracts/*.json' --out-dir 'app/src/types'",
+    "compile": "npx truffle compile && npm run generate-types",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -21,6 +23,8 @@
   },
   "homepage": "https://github.com/truffle-box/drizzle-box#readme",
   "dependencies": {
-    "@openzeppelin/contracts": "^2.4.0"
+    "@openzeppelin/contracts": "^2.4.0",
+    "@typechain/truffle-v5": "^8.0.0",
+    "typechain": "^8.0.0"
   }
 }

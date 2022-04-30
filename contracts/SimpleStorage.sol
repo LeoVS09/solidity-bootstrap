@@ -11,4 +11,8 @@ contract SimpleStorage {
 
         emit StorageSet("Data stored successfully!");
     }
+
+    function get() public view returns (uint256) {
+        return storedData;
+    }
 }
