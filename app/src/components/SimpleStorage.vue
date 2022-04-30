@@ -20,8 +20,34 @@ import Web3 from 'web3'
 import { defineComponent } from 'vue'
 import {SimpleStorageContract, SimpleStorageInstance} from '../types'
 import artifact from '../contracts/SimpleStorage.json'
+import { Contract } from 'web3-eth-contract'
 
 
+async function getWeb3(): Promise<Web3> {
+    const global: { web3?: Web3, ethereum?: any } = window as any
+
+    // Modern dapp browsers...
+    if (global.ethereum) {
+      global.web3 = new Web3(global.ethereum!);
+      await global.ethereum.enable();
+
+      return global.web3
+    }
+
+    // Legacy dapp browsers...
+    if (typeof global.web3 !== 'undefined') {
+      console.warn("Using web3 detected from external source. If you find that your accounts don't appear or you have 0 Fluyd, ensure you've configured that source properly. If using MetaMask, see the following link. Feel free to delete this warning. :) http://truffleframework.com/tutorials/truffle-and-metamask")
+      // Use Mist/MetaMask's provider
+      global.web3 = new Web3(global.web3!.currentProvider)
+      return global.web3
+    } 
+
+    console.warn("No web3 detected. Falling back to http://127.0.0.1:8545. You should remove this fallback when you deploy live, as it's inherently insecure. Consider switching to Metamask for development. More info here: http://truffleframework.com/tutorials/truffle-and-metamask")
+    // fallback - use your fallback strategy (local node / hosted node + in-dapp id mgmt / fail)
+    global.web3 = new Web3(new Web3.providers.HttpProvider(import.meta.env.DEV_RPC_URL || "http://127.0.0.1:8545"))
+
+    return global.web3
+}
 
 export interface SimpleStorageData {
   message: string | null,
@@ -29,7 +55,7 @@ export interface SimpleStorageData {
   account: string | null,
   newValue: number,
   currentNumber: number
-  instance: SimpleStorageInstance | null
+  instance: Contract | null
 }
 
 export default defineComponent({
@@ -47,19 +73,7 @@ export default defineComponent({
   },
   
   async created() {
-    const global: { web3?: Web3 } = window as any
-
-    if (typeof global.web3 !== 'undefined') {
-      console.warn("Using web3 detected from external source. If you find that your accounts don't appear or you have 0 Fluyd, ensure you've configured that source properly. If using MetaMask, see the following link. Feel free to delete this warning. :) http://truffleframework.com/tutorials/truffle-and-metamask")
-      // Use Mist/MetaMask's provider
-      global.web3 = new Web3(global.web3!.currentProvider)
-    } else {
-      console.warn("No web3 detected. Falling back to http://127.0.0.1:8545. You should remove this fallback when you deploy live, as it's inherently insecure. Consider switching to Metamask for development. More info here: http://truffleframework.com/tutorials/truffle-and-metamask")
-      // fallback - use your fallback strategy (local node / hosted node + in-dapp id mgmt / fail)
-      global.web3 = new Web3(new Web3.providers.HttpProvider("http://127.0.0.1:8545"))
-    }
-
-    const web3 = global.web3
+    const web3 = await getWeb3()
 
     try {
       const accounts = await web3.eth.getAccounts();
@@ -67,16 +81,17 @@ export default defineComponent({
           this.message = "Couldn't get any accounts! Make sure your Ethereum client is configured correctly."
           return
       }
+      this.account = accounts[0]
       const networkId = await web3.eth.net.getId();
 
       const deployedNetwork = (artifact.networks as any)[networkId];
-      const SimpleStorage = new web3.eth.Contract(
+      this.instance = new web3.eth.Contract(
           artifact.abi as AbiItem[],
           deployedNetwork?.address
-      ) as unknown as SimpleStorageContract;
+      ) as any as Contract;
 
-      const instance = await SimpleStorage.deployed()
-      this.contractAddress = instance.address
+      // @ts-ignore
+      this.contractAddress = this.instance._address
       this.updateCurrentNumber()
     } catch (e) {
       console.error(e)
@@ -89,7 +104,8 @@ export default defineComponent({
       this.message = "Transaction started";
 
       try {
-        await this.instance!.set(this.newValue, {from: this.account!})
+        // @ts-ignore
+        await this.instance!.methods.set(this.newValue).send({ from: this.account })
         this.message = "Transaction done"
         this.updateCurrentNumber()
 
@@ -100,10 +116,11 @@ export default defineComponent({
     },
     
     async updateCurrentNumber() {
-      const r = await this.instance!.get()
+      // @ts-ignore
+      const r = await this.instance!.methods.get().call() as any
 
-      console.log(r.toNumber())
-      this.currentNumber = r.toNumber()
+      console.log(r)
+      this.currentNumber = r
     },
   },
 })
