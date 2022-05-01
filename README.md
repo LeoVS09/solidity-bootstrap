@@ -11,6 +11,7 @@ The project comes with a sample contract, a test for that contract, a sample scr
 * [Plain JavaScript](https://github.com/LeoVS09/solidity-bootstrap/tree/plain-javascript) - dApp without any front-end framework on [Truffle](https://github.com/trufflesuite/truffle).
 * [React](https://github.com/LeoVS09/solidity-bootstrap/tree/react) - dApp with React framework on [Truffle](https://github.com/trufflesuite/truffle).
 * [React Redux](https://github.com/LeoVS09/solidity-bootstrap/tree/react-redux) - dApp with React and Redux frameworks on [Truffle](https://github.com/trufflesuite/truffle).
+* [Vue Vite](https://github.com/LeoVS09/solidity-bootstrap/tree/vue) - dApp with [Vue](https://vuejs.org/) build on [Vite](https://vitejs.dev/). For connection used [Web3](https://github.com/ChainSafe/web3.js)
 
 ## Requirements
 
