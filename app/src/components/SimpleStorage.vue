@@ -18,7 +18,7 @@
 <script lang="ts">
 import Web3 from 'web3'
 import { defineComponent } from 'vue'
-import {SimpleStorageContract, SimpleStorageInstance} from '../types'
+import {SimpleStorage} from '../types'
 import artifact from '../contracts/SimpleStorage.json'
 import { Contract } from 'web3-eth-contract'
 
@@ -55,7 +55,7 @@ export interface SimpleStorageData {
   account: string | null,
   newValue: number,
   currentNumber: number
-  instance: Contract | null
+  instance: SimpleStorage | null
 }
 
 export default defineComponent({
@@ -86,9 +86,9 @@ export default defineComponent({
 
       const deployedNetwork = (artifact.networks as any)[networkId];
       this.instance = new web3.eth.Contract(
-          artifact.abi as AbiItem[],
+          artifact.abi as any,
           deployedNetwork?.address
-      ) as any as Contract;
+      ) as any as SimpleStorage;
 
       // @ts-ignore
       this.contractAddress = this.instance._address
@@ -104,8 +104,7 @@ export default defineComponent({
       this.message = "Transaction started";
 
       try {
-        // @ts-ignore
-        await this.instance!.methods.set(this.newValue).send({ from: this.account })
+        await this.instance!.methods.set(this.newValue).send({ from: this.account! })
         this.message = "Transaction done"
         this.updateCurrentNumber()
 
@@ -116,11 +115,10 @@ export default defineComponent({
     },
     
     async updateCurrentNumber() {
-      // @ts-ignore
-      const r = await this.instance!.methods.get().call() as any
+      const r = await this.instance!.methods.get().call()
 
       console.log(r)
-      this.currentNumber = r
+      this.currentNumber = +r
     },
   },
 })
