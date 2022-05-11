@@ -21,14 +21,18 @@ export interface EventOptions {
   topics?: string[];
 }
 
-export interface Context extends BaseContract {
+export interface ILender extends BaseContract {
   constructor(
     jsonInterface: any[],
     address?: string,
     options?: ContractOptions
-  ): Context;
-  clone(): Context;
-  methods: {};
+  ): ILender;
+  clone(): ILender;
+  methods: {
+    borrow(amount: number | string | BN): NonPayableTransactionObject<void>;
+
+    creditAvailable(): NonPayableTransactionObject<string>;
+  };
   events: {
     allEvents(options?: EventOptions, cb?: Callback<EventLog>): EventEmitter;
   };

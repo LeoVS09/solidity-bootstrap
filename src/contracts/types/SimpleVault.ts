@@ -21,36 +21,17 @@ export interface EventOptions {
   topics?: string[];
 }
 
-export type StorageSet = ContractEventLog<{
-  _message: string;
-  0: string;
-}>;
-
-export interface SimpleStorage extends BaseContract {
+export interface SimpleVault extends BaseContract {
   constructor(
     jsonInterface: any[],
     address?: string,
     options?: ContractOptions
-  ): SimpleStorage;
-  clone(): SimpleStorage;
+  ): SimpleVault;
+  clone(): SimpleVault;
   methods: {
-    storedData(): NonPayableTransactionObject<string>;
-
-    set(x: number | string | BN): NonPayableTransactionObject<void>;
-
-    get(): NonPayableTransactionObject<string>;
+    assets(): NonPayableTransactionObject<string>;
   };
   events: {
-    StorageSet(cb?: Callback<StorageSet>): EventEmitter;
-    StorageSet(options?: EventOptions, cb?: Callback<StorageSet>): EventEmitter;
-
     allEvents(options?: EventOptions, cb?: Callback<EventLog>): EventEmitter;
   };
-
-  once(event: "StorageSet", cb: Callback<StorageSet>): void;
-  once(
-    event: "StorageSet",
-    options: EventOptions,
-    cb: Callback<StorageSet>
-  ): void;
 }

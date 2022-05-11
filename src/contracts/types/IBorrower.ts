@@ -21,21 +21,21 @@ export interface EventOptions {
   topics?: string[];
 }
 
-export interface Migrations extends BaseContract {
+export interface IBorrower extends BaseContract {
   constructor(
     jsonInterface: any[],
     address?: string,
     options?: ContractOptions
-  ): Migrations;
-  clone(): Migrations;
+  ): IBorrower;
+  clone(): IBorrower;
   methods: {
-    last_completed_migration(): NonPayableTransactionObject<string>;
+    lender(): NonPayableTransactionObject<string>;
 
-    owner(): NonPayableTransactionObject<string>;
+    totalAssets(): NonPayableTransactionObject<string>;
 
-    setCompleted(
-      completed: number | string | BN
-    ): NonPayableTransactionObject<void>;
+    want(): NonPayableTransactionObject<string>;
+
+    withdraw(amount: number | string | BN): NonPayableTransactionObject<string>;
   };
   events: {
     allEvents(options?: EventOptions, cb?: Callback<EventLog>): EventEmitter;

@@ -29,6 +29,20 @@ export type Approval = ContractEventLog<{
   1: string;
   2: string;
 }>;
+export type Deposit = ContractEventLog<{
+  amount: string;
+  shares: string;
+  holder: string;
+  0: string;
+  1: string;
+  2: string;
+}>;
+export type OwnershipTransferred = ContractEventLog<{
+  previousOwner: string;
+  newOwner: string;
+  0: string;
+  1: string;
+}>;
 export type Transfer = ContractEventLog<{
   from: string;
   to: string;
@@ -37,51 +51,59 @@ export type Transfer = ContractEventLog<{
   1: string;
   2: string;
 }>;
+export type Withdraw = ContractEventLog<{
+  holder: string;
+  maxShares: string;
+  maxLoss: string;
+  shares: string;
+  amount: string;
+  totalShares: string;
+  0: string;
+  1: string;
+  2: string;
+  3: string;
+  4: string;
+  5: string;
+}>;
 
-export interface TutorialToken extends BaseContract {
+export interface EquityFund extends BaseContract {
   constructor(
     jsonInterface: any[],
     address?: string,
     options?: ContractOptions
-  ): TutorialToken;
-  clone(): TutorialToken;
+  ): EquityFund;
+  clone(): EquityFund;
   methods: {
-    INITIAL_SUPPLY(): NonPayableTransactionObject<string>;
-
-    /**
-     * See {IERC20-allowance}.
-     */
     allowance(
       owner: string,
       spender: string
     ): NonPayableTransactionObject<string>;
 
-    /**
-     * See {IERC20-approve}.     * Requirements:     * - `spender` cannot be the zero address.
-     */
     approve(
       spender: string,
       amount: number | string | BN
     ): NonPayableTransactionObject<boolean>;
 
-    /**
-     * See {IERC20-balanceOf}.
-     */
+    assets(): NonPayableTransactionObject<string>;
+
     balanceOf(account: string): NonPayableTransactionObject<string>;
+
+    burn(amount: number | string | BN): NonPayableTransactionObject<void>;
+
+    burnFrom(
+      account: string,
+      amount: number | string | BN
+    ): NonPayableTransactionObject<void>;
 
     decimals(): NonPayableTransactionObject<string>;
 
-    /**
-     * Atomically decreases the allowance granted to `spender` by the caller.     * This is an alternative to {approve} that can be used as a mitigation for problems described in {IERC20-approve}.     * Emits an {Approval} event indicating the updated allowance.     * Requirements:     * - `spender` cannot be the zero address. - `spender` must have allowance for the caller of at least `subtractedValue`.
-     */
     decreaseAllowance(
       spender: string,
       subtractedValue: number | string | BN
     ): NonPayableTransactionObject<boolean>;
 
-    /**
-     * Atomically increases the allowance granted to `spender` by the caller.     * This is an alternative to {approve} that can be used as a mitigation for problems described in {IERC20-approve}.     * Emits an {Approval} event indicating the updated allowance.     * Requirements:     * - `spender` cannot be the zero address.
-     */
+    deposit(amount: number | string | BN): NonPayableTransactionObject<string>;
+
     increaseAllowance(
       spender: string,
       addedValue: number | string | BN
@@ -89,36 +111,50 @@ export interface TutorialToken extends BaseContract {
 
     name(): NonPayableTransactionObject<string>;
 
+    owner(): NonPayableTransactionObject<string>;
+
+    renounceOwnership(): NonPayableTransactionObject<void>;
+
     symbol(): NonPayableTransactionObject<string>;
 
-    /**
-     * See {IERC20-totalSupply}.
-     */
     totalSupply(): NonPayableTransactionObject<string>;
 
-    /**
-     * See {IERC20-transfer}.     * Requirements:     * - `recipient` cannot be the zero address. - the caller must have a balance of at least `amount`.
-     */
     transfer(
-      recipient: string,
+      to: string,
       amount: number | string | BN
     ): NonPayableTransactionObject<boolean>;
 
-    /**
-     * See {IERC20-transferFrom}.     * Emits an {Approval} event indicating the updated allowance. This is not required by the EIP. See the note at the beginning of {ERC20};     * Requirements: - `sender` and `recipient` cannot be the zero address. - `sender` must have a balance of at least `amount`. - the caller must have allowance for `sender`'s tokens of at least `amount`.
-     */
     transferFrom(
-      sender: string,
-      recipient: string,
+      from: string,
+      to: string,
       amount: number | string | BN
     ): NonPayableTransactionObject<boolean>;
+
+    transferOwnership(newOwner: string): NonPayableTransactionObject<void>;
+
+    withdraw(
+      maxShares: number | string | BN,
+      maxLoss: number | string | BN
+    ): NonPayableTransactionObject<string>;
   };
   events: {
     Approval(cb?: Callback<Approval>): EventEmitter;
     Approval(options?: EventOptions, cb?: Callback<Approval>): EventEmitter;
 
+    Deposit(cb?: Callback<Deposit>): EventEmitter;
+    Deposit(options?: EventOptions, cb?: Callback<Deposit>): EventEmitter;
+
+    OwnershipTransferred(cb?: Callback<OwnershipTransferred>): EventEmitter;
+    OwnershipTransferred(
+      options?: EventOptions,
+      cb?: Callback<OwnershipTransferred>
+    ): EventEmitter;
+
     Transfer(cb?: Callback<Transfer>): EventEmitter;
     Transfer(options?: EventOptions, cb?: Callback<Transfer>): EventEmitter;
+
+    Withdraw(cb?: Callback<Withdraw>): EventEmitter;
+    Withdraw(options?: EventOptions, cb?: Callback<Withdraw>): EventEmitter;
 
     allEvents(options?: EventOptions, cb?: Callback<EventLog>): EventEmitter;
   };
@@ -126,6 +162,19 @@ export interface TutorialToken extends BaseContract {
   once(event: "Approval", cb: Callback<Approval>): void;
   once(event: "Approval", options: EventOptions, cb: Callback<Approval>): void;
 
+  once(event: "Deposit", cb: Callback<Deposit>): void;
+  once(event: "Deposit", options: EventOptions, cb: Callback<Deposit>): void;
+
+  once(event: "OwnershipTransferred", cb: Callback<OwnershipTransferred>): void;
+  once(
+    event: "OwnershipTransferred",
+    options: EventOptions,
+    cb: Callback<OwnershipTransferred>
+  ): void;
+
   once(event: "Transfer", cb: Callback<Transfer>): void;
   once(event: "Transfer", options: EventOptions, cb: Callback<Transfer>): void;
+
+  once(event: "Withdraw", cb: Callback<Withdraw>): void;
+  once(event: "Withdraw", options: EventOptions, cb: Callback<Withdraw>): void;
 }
