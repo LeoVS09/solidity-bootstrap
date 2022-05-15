@@ -5,6 +5,7 @@ import { getAccount } from '../web3/getAccount'
 import {getWeb3} from '../web3/getWeb3'
 import Account from '../components/Account.vue'
 import UsdtBalance from '../components/UsdtBalance.vue'
+import SharesBalance from '../components/SharesBalance.vue'
 
 export interface AppData {
   web3: Web3 | null;
@@ -16,7 +17,8 @@ export default defineComponent({
 
   components: {
     Account,
-    UsdtBalance
+    UsdtBalance,
+    SharesBalance
   },
 
   data(): AppData {
@@ -39,6 +41,7 @@ export default defineComponent({
     <h1>Greetings!</h1>
     <Account :account="account" />
     <UsdtBalance v-if="account" :web3="web3" :address="account" />
+    <SharesBalance v-if="account" :web3="web3" :address="account" />
   </div>
 </template>
 

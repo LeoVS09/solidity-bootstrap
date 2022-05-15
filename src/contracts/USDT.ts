@@ -11,7 +11,5 @@ export function getUSDT(web3: Web3): USDT {
         throw new Error('USDT contract do not have address in enviroment variable CONTRACT_USDT_ADDRESS')
     }
 
-    console.log('USDTAbi', USDTAbi  )
-
     return getContract<USDT>(web3, USDTAbi as any, address)
 }
