@@ -2,7 +2,7 @@
     <div>
         <p v-if="balance">Your USDT balance is: {{balance}}
             <br /> 
-            Contract address at {{contract._address}}
+            Contract address at {{(contract as any)?._address}}
         </p>
         <p v-else> Cannot connect to USDT contract</p>
     </div>
