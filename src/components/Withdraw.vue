@@ -1,7 +1,7 @@
 <template>
     <div>
         <input type="number" v-model="amount" placeholder="0.0"/>
-        <button @click="putInStake">Stake</button>
+        <button @click="withdraw">Withdraw</button>
     </div>
 </template>
 
@@ -23,7 +23,7 @@ export interface StakeData {
 }
 
 export default defineComponent({
-    name: "Stake",
+    name: "Withdraw",
 
     props: {
         web3: Object,
@@ -44,15 +44,12 @@ export default defineComponent({
     },
 
     methods: {
-        async putInStake() {
+        async withdraw() {
             const {toBN} = (this.web3 as Web3)!.utils
-            const usdtBasis = toBN('1000000')
+            const usdtBasis = toBN('1')
             const amount = toBN(this.amount).mul(usdtBasis)
-            // @ts-ignore
-            const vaultAddress = this.vault!._address
-            await this.usdt!.methods.approve(vaultAddress, amount).send({ from: this.account })
 
-            await this.vault!.methods.deposit(amount).send({ from: this.account })
+            await this.vault!.methods.withdraw(amount, '1').send({ from: this.account })
 
         }
     }

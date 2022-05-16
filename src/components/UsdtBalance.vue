@@ -42,9 +42,11 @@ export default defineComponent({
     async created() {
         this.contract = await getUSDT(this.web3 as Web3);
 
-        console.log('this.address', this.address)
+        const rawBalance = await this.contract.methods.balanceOf(this.address!).call()
 
-        this.balance = await this.contract.methods.balanceOf(this.address!).call()
+        const {toBN} = (this.web3 as Web3)!.utils
+        const usdtBasis = toBN('1000000')
+        this.balance = toBN(rawBalance).div(usdtBasis).toString()
     }
 
 })

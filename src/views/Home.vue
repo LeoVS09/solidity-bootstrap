@@ -5,6 +5,7 @@
     <div v-if="account && web3">
       <UsdtBalance :web3="web3" :address="account" />
       <Stake :web3="web3" :account="account" />
+      <Withdraw :web3="web3" :account="account" />
       <SharesBalance :web3="web3" :address="account" />
     </div>
   </div>
@@ -19,6 +20,7 @@ import Account from '../components/Account.vue'
 import UsdtBalance from '../components/UsdtBalance.vue'
 import SharesBalance from '../components/SharesBalance.vue'
 import Stake from '../components/Stake.vue'
+import Withdraw from '../components/Withdraw.vue'
 
 export interface AppData {
   web3: Web3 | null;
@@ -32,7 +34,8 @@ export default defineComponent({
     Account,
     UsdtBalance,
     SharesBalance,
-    Stake
+    Stake,
+    Withdraw
   },
 
   data(): AppData {
