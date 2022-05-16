@@ -1,53 +1,43 @@
-<template>
-    <div>
-        <p v-if="balance">Your USDT balance is: {{balance}}
-            <br /> 
-            Contract address at {{(contract as any)?._address}}
-        </p>
-        <p v-else> Cannot connect to USDT contract</p>
-    </div>
-</template>
-
-<script lang="ts">
-import {defineComponent} from 'vue'
+<script setup lang="ts">
+import { ref } from 'vue'
 import Web3 from 'web3'
+import Contract from './Contract.vue'
 import { USDT, getUSDT } from '../contracts/USDT'
-
 
 export interface UsdtBalanceProps {
     web3: Web3
     address: string
 }
 
-export interface UsdtBalanceData {
-    balance: string | null
-    contract: USDT | null
+const {web3, address} = defineProps<UsdtBalanceProps>()
+
+const {toBN} = web3.utils
+const usdtBasis = toBN('1000000')
+
+function toUSDT(amount: string) {
+    return toBN(amount).div(usdtBasis).toString()
 }
 
-export default defineComponent({
-    name: "UsdtBalance",
+const contract = await getUSDT(web3 as Web3);
+const contractAddress: string = (contract as any)?._address
 
-    props: {
-        web3: Object,
-        address: String
-    },
+const balance = ref('')
+async function updateBalance(){
+    balance.value = toUSDT(await contract.methods.balanceOf(address!).call())
+}
 
-    data(): UsdtBalanceData {
-        return {
-            balance: null,
-            contract: null
-        }
-    },
-
-    async created() {
-        this.contract = await getUSDT(this.web3 as Web3);
-
-        const rawBalance = await this.contract.methods.balanceOf(this.address!).call()
-
-        const {toBN} = (this.web3 as Web3)!.utils
-        const usdtBasis = toBN('1000000')
-        this.balance = toBN(rawBalance).div(usdtBasis).toString()
-    }
-
+await updateBalance()
+contract.events.Transfer(async () => {
+    await updateBalance()
 })
+
 </script>
+
+<template>
+    <div>
+        <p v-if="balance">Your <Contract :address="contractAddress">USDT</Contract> balance is: {{balance}}            
+        </p>
+        <p v-else> Cannot connect to USDT contract</p>
+    </div>
+</template>
+

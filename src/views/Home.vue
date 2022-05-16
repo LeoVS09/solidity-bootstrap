@@ -3,7 +3,9 @@
     <h1>Greetings!</h1>
     <Account :account="account" />
     <div v-if="account && web3">
-      <UsdtBalance :web3="web3" :address="account" />
+      <Suspense>
+        <UsdtBalance :web3="web3" :address="account" />
+      </Suspense>
       <Stake :web3="web3" :account="account" />
       <Withdraw :web3="web3" :account="account" />
       <SharesBalance :web3="web3" :address="account" />

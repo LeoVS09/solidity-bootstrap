@@ -1,8 +1,6 @@
 <template>
     <div>
-        <p v-if="balance">Your shares balance is: {{balance}}
-            <br /> 
-            Contract address at {{(contract as any)?._address}}
+        <p v-if="balance">Your <Contract :address="(contract as any)?._address">Shares</Contract> balance is: {{balance}}
         </p>
         <p v-else> Cannot connect to InvestmentVault contract</p>
     </div>
@@ -11,6 +9,7 @@
 <script lang="ts">
 import {defineComponent} from 'vue'
 import Web3 from 'web3'
+import Contract from './Contract.vue'
 import { InvestmentVault, getInvestmentVault } from '../contracts/InvestmentVault'
 
 
