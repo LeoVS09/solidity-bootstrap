@@ -1,3 +1,15 @@
+<template>
+  <div class="home">
+    <h1>Greetings!</h1>
+    <Account :account="account" />
+    <div v-if="account && web3">
+      <UsdtBalance :web3="web3" :address="account" />
+      <Stake :web3="web3" :account="account" />
+      <SharesBalance :web3="web3" :address="account" />
+    </div>
+  </div>
+</template>
+
 <script lang="ts">
 import { defineComponent } from 'vue'
 import Web3 from 'web3'
@@ -6,6 +18,7 @@ import {getWeb3} from '../web3/getWeb3'
 import Account from '../components/Account.vue'
 import UsdtBalance from '../components/UsdtBalance.vue'
 import SharesBalance from '../components/SharesBalance.vue'
+import Stake from '../components/Stake.vue'
 
 export interface AppData {
   web3: Web3 | null;
@@ -18,7 +31,8 @@ export default defineComponent({
   components: {
     Account,
     UsdtBalance,
-    SharesBalance
+    SharesBalance,
+    Stake
   },
 
   data(): AppData {
@@ -36,12 +50,5 @@ export default defineComponent({
 })
 </script>
 
-<template>
-  <div class="home">
-    <h1>Greetings!</h1>
-    <Account :account="account" />
-    <UsdtBalance v-if="account" :web3="web3" :address="account" />
-    <SharesBalance v-if="account" :web3="web3" :address="account" />
-  </div>
-</template>
+
 

@@ -11,7 +11,7 @@
 <script lang="ts">
 import {defineComponent} from 'vue'
 import Web3 from 'web3'
-import {USDT, getUSDT } from '../contracts/USDT'
+import { USDT, getUSDT } from '../contracts/USDT'
 
 
 export interface UsdtBalanceProps {
