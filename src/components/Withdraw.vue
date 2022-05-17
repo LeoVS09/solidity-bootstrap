@@ -1,7 +1,6 @@
 <template>
     <div>
-        <input type="number" v-model="amount" placeholder="0.0"/>
-        <button @click="withdraw">Withdraw</button>
+        <PayButton @click="withdraw">Withdraw</PayButton>
     </div>
 </template>
 
@@ -10,16 +9,17 @@ import {defineComponent} from 'vue'
 import Web3 from 'web3'
 import { USDT, getUSDT } from '../contracts/USDT'
 import { InvestmentVault, getInvestmentVault } from '../contracts/InvestmentVault'
+import PayButton from './PayButton.vue'
 
 export interface StakeProps {
     web3: Web3
     account: string
+    amount: string
 }
 
 export interface StakeData {
     vault: InvestmentVault | null
     usdt: USDT | null
-    amount: string
 }
 
 export default defineComponent({
@@ -27,14 +27,18 @@ export default defineComponent({
 
     props: {
         web3: Object,
-        account: String
+        account: String,
+        amount: String,
+    },
+
+    components: {
+        PayButton
     },
 
     data(): StakeData {
         return {
             vault: null,
-            usdt: null,
-            amount: ''
+            usdt: null
         }
     },
 
@@ -47,7 +51,7 @@ export default defineComponent({
         async withdraw() {
             const {toBN} = (this.web3 as Web3)!.utils
             const usdtBasis = toBN('1')
-            const amount = toBN(this.amount).mul(usdtBasis)
+            const amount = toBN(this.amount!).mul(usdtBasis)
 
             await this.vault!.methods.withdraw(amount, '1').send({ from: this.account })
 

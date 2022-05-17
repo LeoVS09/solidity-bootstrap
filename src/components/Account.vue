@@ -6,12 +6,12 @@ defineProps<{ account: string }>()
 </script>
 
 <template>
-    <p v-if="account">Your account is {{account}}</p>
-    <p v-else>Cannot find account</p>
+    <p class="account" v-if="account">Your account is {{account}}</p>
+    <p class="account" v-else>Cannot find account</p>
 </template>
 
 <style scoped>
-p {
+.account {
   padding: 1rem;
 }
 

@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import Web3 from 'web3'
-import Contract from './Contract.vue'
+import MoneyInput from './MoneyInput.vue'
 import { USDT, getUSDT } from '../contracts/USDT'
 
 export interface UsdtBalanceProps {
     web3: Web3
     address: string
+    value: string
 }
 
 const {web3, address} = defineProps<UsdtBalanceProps>()
@@ -23,7 +24,7 @@ const contractAddress: string = (contract as any)?._address
 
 const balance = ref('')
 async function updateBalance(){
-    balance.value = toUSDT(await contract.methods.balanceOf(address!).call())
+    balance.value = toUSDT(await contract.methods.balanceOf(address!).call()), 1
 }
 
 await updateBalance()
@@ -31,13 +32,26 @@ contract.events.Transfer(async () => {
     await updateBalance()
 })
 
+const emit = defineEmits(['update:value'])
+
+const updateValue = (event: any) => {
+    emit('update:value', event.target.value)
+}
+
 </script>
 
 <template>
-    <div>
-        <p v-if="balance">Your <Contract :address="contractAddress">USDT</Contract> balance is: {{balance}}            
-        </p>
-        <p v-else> Cannot connect to USDT contract</p>
-    </div>
+    <MoneyInput 
+        :value="value" @input="updateValue"
+        :address="contractAddress" 
+        :balance="balance"><img alt="USDT Symbol" class="symbol" src="../assets/tether-usdt-cryptocoins-icon.png"/>
+    </MoneyInput>
 </template>
 
+<style lang="stylus" scoped>
+
+.symbol
+    height 3rem
+    margin-bottom 0.5rem
+
+</style>
