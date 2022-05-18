@@ -9,6 +9,8 @@ declare module '@vue/runtime-core' {
     Account: typeof import('./src/components/Account.vue')['default']
     ADivider: typeof import('ant-design-vue/es')['Divider']
     ApyDescription: typeof import('./src/components/ApyDescription.vue')['default']
+    AStep: typeof import('ant-design-vue/es')['Step']
+    ASteps: typeof import('ant-design-vue/es')['Steps']
     ATooltip: typeof import('ant-design-vue/es')['Tooltip']
     Contract: typeof import('./src/components/Contract.vue')['default']
     'Contract copy': typeof import('./src/components/Contract copy.vue')['default']

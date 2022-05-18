@@ -4,7 +4,7 @@ import Web3 from 'web3'
 import { ArrowDownOutlined, ArrowUpOutlined } from '@ant-design/icons-vue';
 import UsdtInput from '../components/UsdtInput.vue'
 import SharesInput from '../components/SharesInput.vue'
-import Stake from '../components/Stake.vue'
+import Stake, {StakeSteps} from '../components/Stake.vue'
 import Withdraw from '../components/Withdraw.vue'
 import ApyDescription from '../components/ApyDescription.vue'
 
@@ -13,7 +13,16 @@ defineProps<{ account: string, web3: Web3 }>()
 const tokens = ref('')
 const shares = ref('')
 
+const stakeStep = ref(-1)
 
+function updateStateStep(value: number){
+    if(value === StakeSteps.Finished) {
+        stakeStep.value = -1
+        return
+    }
+
+    stakeStep.value = value
+}
 
 </script>
 
@@ -22,13 +31,23 @@ const shares = ref('')
         <h1>Stake overview</h1>
         <ApyDescription :apyMetric="1.2" :tokens="+tokens"/>
 
-        <a-divider />
+        <div class="transactions-progress">
+            <Transition>
+                <a-divider v-if="stakeStep < 0"/>
+                <a-steps v-else :current="stakeStep" size="default">
+                    <a-step title="Approve" />
+                    <a-step title="Deposit" />
+                    <a-step title="Invest" />
+                </a-steps>
+            </Transition>
+        </div>
+        
 
         <Suspense>
             <UsdtInput v-model:value="tokens" :web3="web3" :address="account" />        
         </Suspense>
         <div class="actions">
-            <Stake :web3="web3" :account="account" :amount="tokens" />
+            <Stake :web3="web3" :account="account" :amount="tokens" @step="updateStateStep" />
             <arrow-down-outlined />
             <arrow-up-outlined />
             <Withdraw :web3="web3" :account="account" :amount="shares" />
@@ -65,4 +84,28 @@ h1
     justify-content center
     position relative
     z-index 0
+
+.transactions-progress
+    width 100%
+    min-height 5rem
+
+.v-enter-active {
+  transition: opacity 1s ease;
+}
+
+.v-enter-from,
+.v-leave-to {
+  opacity: 0;
+}
+
+</style>
+
+<style>
+
+.ant-steps-item-process > .ant-steps-item-container > .ant-steps-item-content > .ant-steps-item-title::after,
+.ant-steps-item-wait > .ant-steps-item-container > .ant-steps-item-content > .ant-steps-item-title::after,
+.ant-steps-item-process > .ant-steps-item-container > .ant-steps-item-tail::after,
+.ant-steps-item-wait > .ant-steps-item-container > .ant-steps-item-tail::after {
+    background-color: #565454;
+}
 </style>
