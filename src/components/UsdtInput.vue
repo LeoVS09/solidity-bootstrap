@@ -13,7 +13,7 @@ export interface UsdtBalanceProps {
 const {web3, address} = defineProps<UsdtBalanceProps>()
 
 const {toBN} = web3.utils
-const usdtBasis = toBN('1000000')
+const usdtBasis = toBN(`${10 ** 6}`) // USDT have basis of 6
 
 function toUSDT(amount: string) {
     return toBN(amount).div(usdtBasis).toString()
@@ -44,14 +44,17 @@ const updateValue = (event: any) => {
     <MoneyInput 
         :value="value" @input="updateValue"
         :address="contractAddress" 
-        :balance="balance"><img alt="USDT Symbol" class="symbol" src="../assets/tether-usdt-cryptocoins-icon.png"/>
+        :key="balance"
+        :balance="balance"
+        currency="USDT"
+        ><img alt="USDT Symbol" class="symbol" src="../assets/tether-usdt-cryptocoins-icon.png"/>
     </MoneyInput>
 </template>
 
 <style lang="stylus" scoped>
 
 .symbol
-    height 3rem
+    height 4rem
     margin-bottom 0.5rem
 
 </style>

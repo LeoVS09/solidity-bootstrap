@@ -9,6 +9,7 @@
     "generate-types": "npx typechain --target=web3-v1 'src/contracts/artifacts/*.json' --out-dir src/contracts/types"
   },
   "dependencies": {
+    "@ant-design/icons-vue": "^6.1.0",
     "@truffle/contract": "^4.5.8",
     "ant-design-vue": "^3.2.3",
     "buffer": "^6.0.3",

@@ -9,42 +9,52 @@ const onClick = (event: any) => {
 </script>
 
 <template>
-    <button class="pay-button" @click="onClick"><span>
+    <button class="pay-button" @click="onClick">
+        <span>
             <slot></slot>
-        </span></button>
+        </span>
+    </button>
 </template>
 
-<style>
+<style lang="stylus">
 .pay-button {
     display: block;
     width: 100%;
     min-width: 10rem;
-    height: 80px;
+    height: 3rem;
     margin: 1rem auto;
     max-width: 250px;
-    border-radius: 999px;
+
+    cursor: pointer;
 
     position: relative;
 
     text-transform: uppercase;
     border: 2px solid black;
-    background-color: transparent;
+    background-color: black;
+    color: white;
+
+    &:before,
+    &:after,
+    & {
+        border-radius: 5px;
+    }
+
+    &:before,
+    &:after {
+        z-index: -1;
+        content: "";
+        position: absolute;
+        inset: -2px;
+
+        border: 2px solid red;
+        box-sizing: border-box;
+    }
+
 }
 
 .pay-button span {
     font-weight: 900;
-}
-
-.pay-button:before,
-.pay-button:after {
-    z-index: -1;
-    content: "";
-    position: absolute;
-    inset: -2px;
-
-    border: 2px solid red;
-    border-radius: 999px;
-    box-sizing: border-box;
 }
 
 .pay-button:after {

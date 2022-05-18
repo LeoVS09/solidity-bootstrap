@@ -1,6 +1,6 @@
 <template>
     <div>
-        <PayButton @click="putInStake">Stake</PayButton>
+        <PayButton @click="putInStake" :disabled="disabled">Stake</PayButton>
     </div>
 </template>
 
@@ -47,10 +47,20 @@ export default defineComponent({
         this.usdt = await getUSDT(this.web3 as Web3);
     },
 
+    computed: {
+        disabled() {
+            return (+(this.amount || '0') ) <= 0
+        }
+    },
+
     methods: {
         async putInStake() {
+            if(this.disabled){
+                return
+            }
+
             const {toBN} = (this.web3 as Web3)!.utils
-            const usdtBasis = toBN('1000000')
+            const usdtBasis = toBN(`${10 ** 6}`) // USDT have basis of 6
             const amount = toBN(this.amount!).mul(usdtBasis)
             // @ts-ignore
             const vaultAddress = this.vault!._address

@@ -1,11 +1,10 @@
 <template>
     <div class="container">
-        <p class="text">Please, <br /> connect <br /> your wallet</p>
+        <p class="text">Please <br /> connect <br /> your wallet</p>
     </div>
 </template>
 
 <style lang="stylus" scoped>
-@import url('https://fonts.googleapis.com/css2?family=Heebo:wght@800&family=Koulen&display=swap');
 
 .container
     display flex
@@ -14,7 +13,6 @@
     height 100%
 
 .text
-    font-family 'Heebo', sans-serif
     margin-top auto
     margin-bottom auto
     font-weight bold

@@ -7,10 +7,13 @@ declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     ABadge: typeof import('ant-design-vue/es')['Badge']
     Account: typeof import('./src/components/Account.vue')['default']
+    ADivider: typeof import('ant-design-vue/es')['Divider']
+    ApyDescription: typeof import('./src/components/ApyDescription.vue')['default']
     ATooltip: typeof import('ant-design-vue/es')['Tooltip']
     Contract: typeof import('./src/components/Contract.vue')['default']
     'Contract copy': typeof import('./src/components/Contract copy.vue')['default']
     Currency: typeof import('./src/components/Currency.vue')['default']
+    Highlight: typeof import('./src/components/Highlight.vue')['default']
     Login: typeof import('./src/components/Login.vue')['default']
     MoneyInput: typeof import('./src/components/MoneyInput.vue')['default']
     PayButton: typeof import('./src/components/PayButton.vue')['default']

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, onBeforeMount } from 'vue'
 import Web3 from 'web3'
 import MoneyInput from './MoneyInput.vue'
 import { InvestmentVault, getInvestmentVault } from '../contracts/InvestmentVault'
@@ -12,17 +12,26 @@ export interface SharesInputProps {
 
 const {web3, address} = defineProps<SharesInputProps>()
 
-const contract = await getInvestmentVault(web3);
-const contractAddress = (contract as any)?._address
+const balance = ref('0')
+const contractAddress = ref('0')
 
-const balance = ref('')
-async function updateBalance(){
-    balance.value = await contract.methods.balanceOf(address!).call()
-}
+onBeforeMount(async () => {
+    const contract = await getInvestmentVault(web3);
+    contractAddress.value = (contract as any)?._address
 
-await updateBalance()
-contract.events.Transfer(async () => {
+    async function updateBalance(){
+        console.log('updateBalance')
+        balance.value = await contract.methods.balanceOf(address!).call()
+        console.log('balance', balance.value)
+    }
     await updateBalance()
+    contract.events.Transfer(async () => {
+        await updateBalance()
+    })
+
+    contract.events.Deposit(async () => {
+        await updateBalance()
+    })
 })
 
 const emit = defineEmits(['update:value'])
@@ -37,7 +46,9 @@ const updateValue = (event: any) => {
     <MoneyInput 
         :value="value" @input="updateValue"
         :address="contractAddress" 
-        :balance="balance">sUSDT
+        :key="balance"
+        :balance="balance"
+        currency="Shares">S
     </MoneyInput>
 </template>
 
