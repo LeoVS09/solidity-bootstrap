@@ -9,7 +9,7 @@ const onClick = (event: any) => {
 </script>
 
 <template>
-    <button class="pay-button" @click="onClick">
+    <button class="secondary-button" @click="onClick">
         <span>
             <slot></slot>
         </span>
@@ -17,7 +17,7 @@ const onClick = (event: any) => {
 </template>
 
 <style lang="stylus">
-.pay-button {
+.secondary-button {
     display: block;
     width: 100%;
     min-width: 30%;
@@ -30,21 +30,20 @@ const onClick = (event: any) => {
 
     text-transform uppercase
     border 0 solid transparent
-    background: linear-gradient(to right, #feac5e, #c779d0, #4bc0c8);
+    background: #212121;
     color white
 
     overflow: hidden;
 
     border-radius: 3px;
 
-    box-shadow: 0px 15px 30px -10px rgba(75, 192, 200, 1);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
     transition: all 0.3s cubic-bezier(.25,.8,.25,1);
 
     &:hover {
-        box-shadow: 0px 20px 30px -5px rgba(75, 192, 200, 1);
+        box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
     }
 
 }
-
 </style>
 

@@ -8,6 +8,7 @@ import Stake, {StakeSteps} from '../components/Stake.vue'
 import Withdraw from '../components/Withdraw.vue'
 import ApyDescription from '../components/ApyDescription.vue'
 
+
 defineProps<{ account: string, web3: Web3 }>()
 
 const tokens = ref('')
@@ -48,8 +49,10 @@ function updateStateStep(value: number){
         </Suspense>
         <div class="actions">
             <Stake :web3="web3" :account="account" :amount="tokens" @step="updateStateStep" />
-            <arrow-down-outlined />
-            <arrow-up-outlined />
+            <div class="actions-divider">
+                <arrow-down-outlined />
+                <arrow-up-outlined />
+            </div>
             <Withdraw :web3="web3" :account="account" :amount="shares" />
         </div>
         <Suspense>
@@ -78,12 +81,21 @@ h1
 
 .actions
     display flex
-    flex-direction row
+    flex-direction column
     width 100%
     align-items space-around
     justify-content center
     position relative
     z-index 0
+
+    &-divider
+        margin-top 1rem
+        margin-bottom 1rem
+        display flex
+        flex-direction row
+        align-items center
+        justify-content center
+        font-size 2rem
 
 .transactions-progress
     width 100%

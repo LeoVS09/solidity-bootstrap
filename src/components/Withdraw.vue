@@ -1,6 +1,6 @@
 <template>
     <div>
-        <PayButton @click="withdraw">Withdraw</PayButton>
+        <SecondaryButton @click="withdraw">Withdraw</SecondaryButton>
     </div>
 </template>
 
@@ -9,7 +9,7 @@ import {defineComponent} from 'vue'
 import Web3 from 'web3'
 import { USDT, getUSDT } from '../contracts/USDT'
 import { InvestmentVault, getInvestmentVault } from '../contracts/InvestmentVault'
-import PayButton from './PayButton.vue'
+import SecondaryButton from '../components/SecondaryButton.vue'
 
 export interface StakeProps {
     web3: Web3
@@ -32,7 +32,7 @@ export default defineComponent({
     },
 
     components: {
-        PayButton
+        SecondaryButton
     },
 
     data(): StakeData {
