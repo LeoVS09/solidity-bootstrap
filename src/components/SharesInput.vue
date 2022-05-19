@@ -20,9 +20,7 @@ onBeforeMount(async () => {
     contractAddress.value = (contract as any)?._address
 
     async function updateBalance(){
-        console.log('updateBalance')
         balance.value = await contract.methods.balanceOf(address!).call()
-        console.log('balance', balance.value)
     }
     await updateBalance()
     contract.events.Transfer(async () => {

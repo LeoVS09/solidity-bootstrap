@@ -7,7 +7,7 @@ import SharesInput from '../components/SharesInput.vue'
 import Stake, {StakeSteps} from '../components/Stake.vue'
 import Withdraw from '../components/Withdraw.vue'
 import ApyDescription from '../components/ApyDescription.vue'
-
+import VaultInfo from '../components/VaultInfo.vue'
 
 defineProps<{ account: string, web3: Web3 }>()
 
@@ -31,6 +31,8 @@ function updateStateStep(value: number){
     <div class="staking">
         <h1>Stake to Earn More</h1>
         <ApyDescription :apyMetric="1.2" :tokens="+tokens"/>
+
+        <VaultInfo :web3="web3" :address="account" />
 
         <div class="transactions-progress">
             <Transition>

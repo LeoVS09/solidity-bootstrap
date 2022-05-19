@@ -25,10 +25,12 @@ declare module '@vue/runtime-core' {
     SecondaryButton: typeof import('./src/components/SecondaryButton.vue')['default']
     SharesBalance: typeof import('./src/components/SharesBalance.vue')['default']
     SharesInput: typeof import('./src/components/SharesInput.vue')['default']
+    'SharesInput copy': typeof import('./src/components/SharesInput copy.vue')['default']
     Stake: typeof import('./src/components/Stake.vue')['default']
     UsdtBalance: typeof import('./src/components/UsdtBalance.vue')['default']
     UsdtInput: typeof import('./src/components/UsdtInput.vue')['default']
     'UsdtInput copy': typeof import('./src/components/UsdtInput copy.vue')['default']
+    VaultInfo: typeof import('./src/components/VaultInfo.vue')['default']
     Withdraw: typeof import('./src/components/Withdraw.vue')['default']
   }
 }

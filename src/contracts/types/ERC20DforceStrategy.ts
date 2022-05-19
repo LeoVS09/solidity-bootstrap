@@ -25,6 +25,10 @@ export type Borrowed = ContractEventLog<{
   amount: string;
   0: string;
 }>;
+export type Initialized = ContractEventLog<{
+  version: string;
+  0: string;
+}>;
 export type OwnershipTransferred = ContractEventLog<{
   previousOwner: string;
   newOwner: string;
@@ -64,6 +68,8 @@ export interface ERC20DforceStrategy extends BaseContract {
 
     balanceOfAssetsInStake(): NonPayableTransactionObject<string>;
 
+    directBalanceOfAssetsInStake(): NonPayableTransactionObject<string>;
+
     initialize(
       _name: string,
       wantTokenAddress: string,
@@ -95,6 +101,12 @@ export interface ERC20DforceStrategy extends BaseContract {
     Borrowed(cb?: Callback<Borrowed>): EventEmitter;
     Borrowed(options?: EventOptions, cb?: Callback<Borrowed>): EventEmitter;
 
+    Initialized(cb?: Callback<Initialized>): EventEmitter;
+    Initialized(
+      options?: EventOptions,
+      cb?: Callback<Initialized>
+    ): EventEmitter;
+
     OwnershipTransferred(cb?: Callback<OwnershipTransferred>): EventEmitter;
     OwnershipTransferred(
       options?: EventOptions,
@@ -118,6 +130,13 @@ export interface ERC20DforceStrategy extends BaseContract {
 
   once(event: "Borrowed", cb: Callback<Borrowed>): void;
   once(event: "Borrowed", options: EventOptions, cb: Callback<Borrowed>): void;
+
+  once(event: "Initialized", cb: Callback<Initialized>): void;
+  once(
+    event: "Initialized",
+    options: EventOptions,
+    cb: Callback<Initialized>
+  ): void;
 
   once(event: "OwnershipTransferred", cb: Callback<OwnershipTransferred>): void;
   once(
