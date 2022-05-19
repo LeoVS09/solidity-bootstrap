@@ -48,7 +48,7 @@ const updateValue = (event: any) => {
         :address="contractAddress" 
         :key="balance"
         :balance="balance"
-        currency="Shares">S
+        currency="Shares"><div class="symbol"><span>S</span></div>
     </MoneyInput>
 </template>
 
@@ -56,6 +56,14 @@ const updateValue = (event: any) => {
 
 .symbol
     height 3rem
+    width 3rem
     margin-bottom 0.5rem
+    color white
+    background-color #212121
+    border-radius 3px
+    display flex
+    flex-direction column
+    align-items center
+    justify-content center
 
 </style>

@@ -3,7 +3,7 @@
 </template>
 
 <style lang="stylus">
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@200,400;500;900&display=swap');
 
 #app 
   font-family Roboto, Avenir, Helvetica, Arial, sans-serif

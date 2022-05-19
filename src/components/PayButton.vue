@@ -26,7 +26,6 @@ const onClick = (event: any) => {
     max-width: 10rem;
 
     cursor: pointer;
-    position: relative;
 
     text-transform uppercase
     border 0 solid transparent
@@ -37,11 +36,25 @@ const onClick = (event: any) => {
 
     border-radius: 3px;
 
-    box-shadow: 0px 15px 30px -10px rgba(75, 192, 200, 1);
-    transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+    &::before {
+        content: "";
+        opacity: 0.4;
+
+        background: linear-gradient(to right, #feac5e, #c779d0, #4bc0c8);
+        position: absolute;
+        top: 0;
+        left: 35%;
+        height: 40%;
+        width: 30%;
+        z-index: -1;
+        filter: blur(20px);
+        transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+    }
 
     &:hover {
-        box-shadow: 0px 20px 30px -5px rgba(75, 192, 200, 1);
+        &::before {
+            opacity: 0.75;
+        }
     }
 
 }

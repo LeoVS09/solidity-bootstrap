@@ -47,14 +47,16 @@ const updateValue = (event: any) => {
         :key="balance"
         :balance="balance"
         currency="USDT"
-        ><img alt="USDT Symbol" class="symbol" src="../assets/tether-usdt-cryptocoins-icon.png"/>
+        ><img alt="USDT Symbol" class="symbol" src="../assets/usdt-crypto-cryptocurrency-cryptocurrencies-cash-money-bank-payment_95467.svg"/>
     </MoneyInput>
 </template>
 
 <style lang="stylus" scoped>
 
 .symbol
-    height 4rem
+    height 3rem
     margin-bottom 0.5rem
+    background #26A17B
+    border-radius 3px
 
 </style>

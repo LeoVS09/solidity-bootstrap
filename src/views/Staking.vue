@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import Web3 from 'web3'
-import { ArrowDownOutlined, ArrowUpOutlined } from '@ant-design/icons-vue';
+import { SwapOutlined } from '@ant-design/icons-vue';
 import UsdtInput from '../components/UsdtInput.vue'
 import SharesInput from '../components/SharesInput.vue'
 import Stake, {StakeSteps} from '../components/Stake.vue'
@@ -29,7 +29,7 @@ function updateStateStep(value: number){
 
 <template>
     <div class="staking">
-        <h1>Stake overview</h1>
+        <h1>Stake to Earn More</h1>
         <ApyDescription :apyMetric="1.2" :tokens="+tokens"/>
 
         <div class="transactions-progress">
@@ -50,8 +50,7 @@ function updateStateStep(value: number){
         <div class="actions">
             <Stake :web3="web3" :account="account" :amount="tokens" @step="updateStateStep" />
             <div class="actions-divider">
-                <arrow-down-outlined />
-                <arrow-up-outlined />
+                <swap-outlined :rotate="90"/>
             </div>
             <Withdraw :web3="web3" :account="account" :amount="shares" />
         </div>
@@ -67,17 +66,19 @@ function updateStateStep(value: number){
     height 100%
     background-color #FAF7FF
     padding 5rem
+    padding-top 3rem
     display flex
     flex-direction column
     border-radius 5px
     box-shadow 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23)
     background rgb(250,250,250)
-    background radial-gradient(circle, rgba(250,250,250,1) 0%, rgba(245,245,245,1) 30%, rgba(224,224,224,1) 100%)
+    background radial-gradient(circle, rgba(256,256,256,1) 0%, rgba(250,250,250,1) 10%, rgba(245,245,245,1) 60%, rgba(224,224,224,1) 80%)
     
 
 h1
     font-size 3rem
     font-weight bold
+    margin-bottom 0.1rem
 
 .actions
     display flex
