@@ -15,8 +15,8 @@
 .text
     margin-top auto
     margin-bottom auto
-    font-weight bold
-    font-size 15rem
+    font-weight 900
+    font-size 14rem
     color #474554
     line-height 18rem
     text-transform uppercase

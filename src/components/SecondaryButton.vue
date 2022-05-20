@@ -29,12 +29,13 @@ const onClick = (event: any) => {
     position: relative;
 
     text-transform uppercase
-    border 0 solid transparent
+    
     background: #212121;
     color white
+    font-weight 900
 
     overflow: hidden;
-
+    border 0 solid transparent
     border-radius: 3px;
 
     box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);

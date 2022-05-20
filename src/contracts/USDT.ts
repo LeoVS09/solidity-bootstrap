@@ -13,3 +13,14 @@ export function getUSDT(web3: Web3): USDT {
 
     return getContract<USDT>(web3, USDTAbi as any, address)
 }
+
+const {toBN} = Web3.utils
+const usdtBasis = toBN(`${10 ** 6}`) // USDT have basis of 6
+
+export function toUSDT(amount: string) {
+    return toBN(amount).div(usdtBasis).toString()
+}
+
+export function fromUSDT(amount: string) {
+    return toBN(amount).mul(usdtBasis).toString()
+}

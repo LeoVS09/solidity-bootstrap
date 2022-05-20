@@ -5,32 +5,12 @@ import MoneyInput from './MoneyInput.vue'
 import { InvestmentVault, getInvestmentVault } from '../contracts/InvestmentVault'
 
 export interface SharesInputProps {
-    web3: Web3
-    address: string
     value: string
+    balance: string
+    contractAddress: string
 }
 
 const {web3, address} = defineProps<SharesInputProps>()
-
-const balance = ref('0')
-const contractAddress = ref('0')
-
-onBeforeMount(async () => {
-    const contract = await getInvestmentVault(web3);
-    contractAddress.value = (contract as any)?._address
-
-    async function updateBalance(){
-        balance.value = await contract.methods.balanceOf(address!).call()
-    }
-    await updateBalance()
-    contract.events.Transfer(async () => {
-        await updateBalance()
-    })
-
-    contract.events.Deposit(async () => {
-        await updateBalance()
-    })
-})
 
 const emit = defineEmits(['update:value'])
 

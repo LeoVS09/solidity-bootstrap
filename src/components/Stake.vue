@@ -7,7 +7,7 @@
 <script lang="ts">
 import {defineComponent, defineEmits} from 'vue'
 import Web3 from 'web3'
-import { USDT, getUSDT } from '../contracts/USDT'
+import { USDT, getUSDT, fromUSDT } from '../contracts/USDT'
 import { InvestmentVault, getInvestmentVault } from '../contracts/InvestmentVault'
 import PayButton from './PayButton.vue'
 import { ERC20DforceStrategy, getStrategy } from '../contracts/ERC20DforceStrategy'
@@ -74,9 +74,7 @@ export default defineComponent({
                 return
             }
 
-            const {toBN} = (this.web3 as Web3)!.utils
-            const usdtBasis = toBN(`${10 ** 6}`) // USDT have basis of 6
-            const amount = toBN(this.amount!).mul(usdtBasis)
+            const amount = fromUSDT(this.amount!)
             // @ts-ignore
             const vaultAddress = this.vault!._address
 

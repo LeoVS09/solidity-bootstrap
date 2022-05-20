@@ -61,10 +61,10 @@ const updateValue = (event: any) => {
     top -0.7rem
 
 input.money
-    width 50%
+    width 100%
     background-color transparent
     text-align left
-    margin-right 1rem
+    margin-right 0
 
     &:active, &:hover, &, &:focus
         border 0

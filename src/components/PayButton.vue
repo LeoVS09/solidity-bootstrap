@@ -24,16 +24,17 @@ const onClick = (event: any) => {
     height: 3rem;
     margin: 1rem auto;
     max-width: 10rem;
-
+    position: relative;
     cursor: pointer;
 
     text-transform uppercase
-    border 0 solid transparent
+    
     background: linear-gradient(to right, #feac5e, #c779d0, #4bc0c8);
+    
     color white
+    font-weight 900
 
-    overflow: hidden;
-
+    border 0 solid transparent
     border-radius: 3px;
 
     &::before {
@@ -42,11 +43,10 @@ const onClick = (event: any) => {
 
         background: linear-gradient(to right, #feac5e, #c779d0, #4bc0c8);
         position: absolute;
-        top: 0;
-        left: 35%;
-        height: 40%;
-        width: 30%;
-        z-index: -1;
+        top: -10%;
+        left: -10%;
+        height: 120%;
+        width: 120%;
         filter: blur(20px);
         transition: all 0.3s cubic-bezier(.25,.8,.25,1);
     }

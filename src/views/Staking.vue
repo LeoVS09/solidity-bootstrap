@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, onBeforeMount, computed } from 'vue'
 import Web3 from 'web3'
 import { SwapOutlined } from '@ant-design/icons-vue';
 import UsdtInput from '../components/UsdtInput.vue'
@@ -8,8 +8,9 @@ import Stake, {StakeSteps} from '../components/Stake.vue'
 import Withdraw from '../components/Withdraw.vue'
 import ApyDescription from '../components/ApyDescription.vue'
 import VaultInfo from '../components/VaultInfo.vue'
+import {getInvestmentVault} from '../contracts/InvestmentVault'
 
-defineProps<{ account: string, web3: Web3 }>()
+const {account} = defineProps<{ account: string, web3: Web3 }>()
 
 const tokens = ref('')
 const shares = ref('')
@@ -25,14 +26,42 @@ function updateStateStep(value: number){
     stakeStep.value = value
 }
 
+const sharesBalance = ref('0')
+const vaultContractAddress = ref('0')
+
+onBeforeMount(async () => {
+    const contract = await getInvestmentVault(web3);
+    vaultContractAddress.value = (contract as any)?._address
+
+    async function updateBalance(){
+        sharesBalance.value = await contract.methods.balanceOf(account!).call()
+    }
+    await updateBalance()
+    contract.events.Transfer(async () => {
+        await updateBalance()
+    })
+
+    contract.events.Deposit(async () => {
+        await updateBalance()
+    })
+})
+
+const hasShares = computed(() => sharesBalance.value !== '0')
+
+console.log('sharesBalance.value', sharesBalance.value, hasShares.value)
+
 </script>
 
 <template>
     <div class="staking">
-        <h1>Stake to Earn More</h1>
-        <ApyDescription :apyMetric="1.2" :tokens="+tokens"/>
-
-        <VaultInfo :web3="web3" :address="account" />
+        <div class="header">
+            <div class="name">
+                <h1>Stake to Earn More</h1>
+                <ApyDescription :apyMetric="1.2" :tokens="+tokens"/>
+            </div>
+            
+            <VaultInfo :web3="web3" :address="account" />
+        </div>
 
         <div class="transactions-progress">
             <Transition>
@@ -45,20 +74,23 @@ function updateStateStep(value: number){
             </Transition>
         </div>
         
+        <div class="workspace">
+            <Suspense>
+                <UsdtInput v-model:value="tokens" :web3="web3" :address="account" />        
+            </Suspense>
 
-        <Suspense>
-            <UsdtInput v-model:value="tokens" :web3="web3" :address="account" />        
-        </Suspense>
-        <div class="actions">
-            <Stake :web3="web3" :account="account" :amount="tokens" @step="updateStateStep" />
-            <div class="actions-divider">
-                <swap-outlined :rotate="90"/>
+            <div class="actions">
+                <Stake :web3="web3" :account="account" :amount="tokens" @step="updateStateStep" />
+                <div v-if="hasShares" class="actions-divider">
+                    <swap-outlined :rotate="90"/>
+                </div>
+                <Withdraw v-if="hasShares"  :web3="web3" :account="account" :amount="shares" />
             </div>
-            <Withdraw :web3="web3" :account="account" :amount="shares" />
+            
+            <Suspense>
+                <SharesInput v-if="hasShares" v-model:value="shares" :balance="sharesBalance" :contractAddress="vaultContractAddress" />
+            </Suspense>
         </div>
-        <Suspense>
-            <SharesInput v-model:value="shares" :web3="web3" :address="account" />
-        </Suspense>
     </div>
 </template>
 
@@ -76,11 +108,28 @@ function updateStateStep(value: number){
     background rgb(250,250,250)
     background radial-gradient(circle, rgba(256,256,256,1) 0%, rgba(250,250,250,1) 10%, rgba(245,245,245,1) 60%, rgba(224,224,224,1) 80%)
     
+.header
+    display flex
+    flex-direction row
+    justify-content space-between
+
+.name
+    display flex
+    flex-direction column
+
 
 h1
     font-size 3rem
     font-weight bold
     margin-bottom 0.1rem
+
+.workspace
+    display flex
+    flex-direction column
+    width 100%
+    height 100%
+    align-items center
+    justify-content center
 
 .actions
     display flex

@@ -2,7 +2,7 @@
 import { ref } from 'vue'
 import Web3 from 'web3'
 import MoneyInput from './MoneyInput.vue'
-import { USDT, getUSDT } from '../contracts/USDT'
+import { USDT, getUSDT, toUSDT } from '../contracts/USDT'
 
 export interface UsdtBalanceProps {
     web3: Web3
@@ -11,13 +11,6 @@ export interface UsdtBalanceProps {
 }
 
 const {web3, address} = defineProps<UsdtBalanceProps>()
-
-const {toBN} = web3.utils
-const usdtBasis = toBN(`${10 ** 6}`) // USDT have basis of 6
-
-function toUSDT(amount: string) {
-    return toBN(amount).div(usdtBasis).toString()
-}
 
 const contract = await getUSDT(web3 as Web3);
 const contractAddress: string = (contract as any)?._address
