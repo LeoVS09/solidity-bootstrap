@@ -49,6 +49,7 @@ const onClick = (event: any) => {
         width: 120%;
         filter: blur(20px);
         transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+        z-index: -1;
     }
 
     &:hover {
