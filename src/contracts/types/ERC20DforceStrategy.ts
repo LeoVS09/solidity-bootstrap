@@ -25,6 +25,12 @@ export type Borrowed = ContractEventLog<{
   amount: string;
   0: string;
 }>;
+export type DuringWithdraw = ContractEventLog<{
+  amount: string;
+  availableAssets: string;
+  0: string;
+  1: string;
+}>;
 export type Initialized = ContractEventLog<{
   version: string;
   0: string;
@@ -37,11 +43,27 @@ export type OwnershipTransferred = ContractEventLog<{
 }>;
 export type PutInStake = ContractEventLog<{
   amount: string;
+  balanceBeforeMint: string;
+  balanceAfterMint: string;
+  balanceOfUnderlying: string;
   0: string;
+  1: string;
+  2: string;
+  3: string;
 }>;
-export type Redeemed = ContractEventLog<{
+export type Redeemed_uint256 = ContractEventLog<{
   amount: string;
   0: string;
+}>;
+export type Redeemed_uint256_uint256_uint256_uint256 = ContractEventLog<{
+  amount: string;
+  balanceBeforeRedeem: string;
+  withdrawn: string;
+  lost: string;
+  0: string;
+  1: string;
+  2: string;
+  3: string;
 }>;
 export type ReturnToLender = ContractEventLog<{
   amount: string;
@@ -66,7 +88,11 @@ export interface ERC20DforceStrategy extends BaseContract {
 
     assets(): NonPayableTransactionObject<string>;
 
-    balanceOfAssetsInStake(): NonPayableTransactionObject<string>;
+    balanceOfAssetsInStake(): NonPayableTransactionObject<{
+      0: string;
+      1: string;
+      2: string;
+    }>;
 
     directBalanceOfAssetsInStake(): NonPayableTransactionObject<string>;
 
@@ -87,6 +113,8 @@ export interface ERC20DforceStrategy extends BaseContract {
 
     setLender(lender: string): NonPayableTransactionObject<void>;
 
+    supplyRatePerBlock(): NonPayableTransactionObject<string>;
+
     totalAssets(): NonPayableTransactionObject<string>;
 
     transferOwnership(newOwner: string): NonPayableTransactionObject<void>;
@@ -100,6 +128,12 @@ export interface ERC20DforceStrategy extends BaseContract {
   events: {
     Borrowed(cb?: Callback<Borrowed>): EventEmitter;
     Borrowed(options?: EventOptions, cb?: Callback<Borrowed>): EventEmitter;
+
+    DuringWithdraw(cb?: Callback<DuringWithdraw>): EventEmitter;
+    DuringWithdraw(
+      options?: EventOptions,
+      cb?: Callback<DuringWithdraw>
+    ): EventEmitter;
 
     Initialized(cb?: Callback<Initialized>): EventEmitter;
     Initialized(
@@ -116,8 +150,19 @@ export interface ERC20DforceStrategy extends BaseContract {
     PutInStake(cb?: Callback<PutInStake>): EventEmitter;
     PutInStake(options?: EventOptions, cb?: Callback<PutInStake>): EventEmitter;
 
-    Redeemed(cb?: Callback<Redeemed>): EventEmitter;
-    Redeemed(options?: EventOptions, cb?: Callback<Redeemed>): EventEmitter;
+    "Redeemed(uint256)"(cb?: Callback<Redeemed_uint256>): EventEmitter;
+    "Redeemed(uint256)"(
+      options?: EventOptions,
+      cb?: Callback<Redeemed_uint256>
+    ): EventEmitter;
+
+    "Redeemed(uint256,uint256,uint256,uint256)"(
+      cb?: Callback<Redeemed_uint256_uint256_uint256_uint256>
+    ): EventEmitter;
+    "Redeemed(uint256,uint256,uint256,uint256)"(
+      options?: EventOptions,
+      cb?: Callback<Redeemed_uint256_uint256_uint256_uint256>
+    ): EventEmitter;
 
     ReturnToLender(cb?: Callback<ReturnToLender>): EventEmitter;
     ReturnToLender(
@@ -130,6 +175,13 @@ export interface ERC20DforceStrategy extends BaseContract {
 
   once(event: "Borrowed", cb: Callback<Borrowed>): void;
   once(event: "Borrowed", options: EventOptions, cb: Callback<Borrowed>): void;
+
+  once(event: "DuringWithdraw", cb: Callback<DuringWithdraw>): void;
+  once(
+    event: "DuringWithdraw",
+    options: EventOptions,
+    cb: Callback<DuringWithdraw>
+  ): void;
 
   once(event: "Initialized", cb: Callback<Initialized>): void;
   once(
@@ -151,9 +203,6 @@ export interface ERC20DforceStrategy extends BaseContract {
     options: EventOptions,
     cb: Callback<PutInStake>
   ): void;
-
-  once(event: "Redeemed", cb: Callback<Redeemed>): void;
-  once(event: "Redeemed", options: EventOptions, cb: Callback<Redeemed>): void;
 
   once(event: "ReturnToLender", cb: Callback<ReturnToLender>): void;
   once(

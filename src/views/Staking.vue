@@ -1,4 +1,4 @@
-<script setup lang="ts">
+getApy<script setup lang="ts">
 import { ref, onBeforeMount, computed } from 'vue'
 import Web3 from 'web3'
 import { SwapOutlined } from '@ant-design/icons-vue';
@@ -8,9 +8,12 @@ import Stake, {StakeSteps} from '../components/Stake.vue'
 import Withdraw from '../components/Withdraw.vue'
 import ApyDescription from '../components/ApyDescription.vue'
 import VaultInfo from '../components/VaultInfo.vue'
+import InvestmentInfo from '../components/InvestmentInfo.vue'
 import {getInvestmentVault} from '../contracts/InvestmentVault'
+import {getStrategy, getApy} from '../contracts/ERC20DforceStrategy'
+import { toUSDT } from '../contracts/USDT';
 
-const {account} = defineProps<{ account: string, web3: Web3 }>()
+const {account, web3} = defineProps<{ account: string, web3: Web3 }>()
 
 const tokens = ref('')
 const shares = ref('')
@@ -18,6 +21,10 @@ const shares = ref('')
 const stakeStep = ref(-1)
 
 function updateStateStep(value: number){
+    if(value === StakeSteps.Invest) {
+        tokens.value = ''
+    }
+
     if(value === StakeSteps.Finished) {
         stakeStep.value = -1
         return
@@ -29,26 +36,51 @@ function updateStateStep(value: number){
 const sharesBalance = ref('0')
 const vaultContractAddress = ref('0')
 
+const totalAssets = ref('0')
+const investedAssets = ref('0')
+
+const apy = ref(0)
+
 onBeforeMount(async () => {
-    const contract = await getInvestmentVault(web3);
-    vaultContractAddress.value = (contract as any)?._address
+    const vault = await getInvestmentVault(web3);
+    vaultContractAddress.value = (vault as any)?._address
 
-    async function updateBalance(){
-        sharesBalance.value = await contract.methods.balanceOf(account!).call()
+    const strategy = await getStrategy(web3)
+
+    async function updateInfo(){
+        sharesBalance.value = await vault.methods.balanceOf(account!).call()
+        totalAssets.value = toUSDT(await vault.methods.totalAssets().call())
+        investedAssets.value = toUSDT(await strategy.methods.totalAssets().call())
     }
-    await updateBalance()
-    contract.events.Transfer(async () => {
-        await updateBalance()
+    await updateInfo()
+    vault.events.Transfer(async () => {
+        await updateInfo()
     })
 
-    contract.events.Deposit(async () => {
-        await updateBalance()
+    vault.events.Deposit(async () => {
+        await updateInfo()
     })
+
+    strategy.events.Borrowed(async () => {
+        await updateInfo()
+    })
+
+    strategy.events.PutInStake(async () => {
+        await updateInfo()
+    })
+
+    apy.value = await getApy(strategy)
+    console.log('apy.value', apy.value)
 })
 
 const hasShares = computed(() => sharesBalance.value !== '0')
 
-console.log('sharesBalance.value', sharesBalance.value, hasShares.value)
+console.log('sharesBalance.value', sharesBalance.value, hasShares.value, totalAssets.value, investedAssets.value)
+
+// Summary of current staking and value which will be staked
+const stakeValue = computed(() => ((+tokens.value) + (+totalAssets.value)) || 0)
+console.log('stakeValue', +stakeValue.value, tokens.value, +totalAssets.value)
+
 
 </script>
 
@@ -57,10 +89,15 @@ console.log('sharesBalance.value', sharesBalance.value, hasShares.value)
         <div class="header">
             <div class="name">
                 <h1>Stake to Earn More</h1>
-                <ApyDescription :apyMetric="1.2" :tokens="+tokens"/>
+                <ApyDescription :apyMetric="apy" :tokens="stakeValue"/>
             </div>
-            
-            <VaultInfo :web3="web3" :address="account" />
+            <Transition>
+                <VaultInfo 
+                    v-if="totalAssets !== '0'" 
+                    :totalAssets="+totalAssets" 
+                    :investedAssets="+investedAssets" 
+                />
+            </Transition>
         </div>
 
         <div class="transactions-progress">
@@ -74,22 +111,26 @@ console.log('sharesBalance.value', sharesBalance.value, hasShares.value)
             </Transition>
         </div>
         
-        <div class="workspace">
-            <Suspense>
-                <UsdtInput v-model:value="tokens" :web3="web3" :address="account" />        
-            </Suspense>
+        <div class="workspace-container">
+            <div class="workspace">
+                <TransitionGroup name="wsp">
+                    <UsdtInput key="to-stake" v-model:value="tokens" :web3="web3" :address="account" />  
 
-            <div class="actions">
-                <Stake :web3="web3" :account="account" :amount="tokens" @step="updateStateStep" />
-                <div v-if="hasShares" class="actions-divider">
-                    <swap-outlined :rotate="90"/>
-                </div>
-                <Withdraw v-if="hasShares"  :web3="web3" :account="account" :amount="shares" />
+                    <div class="actions" key="action">
+                        <Stake :web3="web3" :account="account" :amount="tokens" @step="updateStateStep" />
+                        <div v-if="hasShares" class="actions-divider">
+                            <swap-outlined :rotate="90"/>
+                        </div>
+                        <Withdraw v-if="hasShares"  :web3="web3" :account="account" :amount="shares" />
+                    </div>
+                    
+                    <SharesInput v-if="hasShares" key="to-withdraw" v-model:value="shares" :balance="sharesBalance" :contractAddress="vaultContractAddress" />
+                </TransitionGroup>
             </div>
-            
-            <Suspense>
-                <SharesInput v-if="hasShares" v-model:value="shares" :balance="sharesBalance" :contractAddress="vaultContractAddress" />
-            </Suspense>
+
+            <Transition appear mode="out-in">
+                <InvestmentInfo v-if="stakeValue" :apy="apy" :tokens="stakeValue" />
+            </Transition>
         </div>
     </div>
 </template>
@@ -123,13 +164,32 @@ h1
     font-weight bold
     margin-bottom 0.1rem
 
-.workspace
+.workspace-container
     display flex
-    flex-direction column
+    flex-direction row
     width 100%
     height 100%
     align-items center
+    justify-content space-between
+
+.workspace
+    display flex
+    flex-direction column
+    width 30%
+    height 100%
+    margin-left 35%
     justify-content center
+
+.investment-info
+    width 30%
+    height 100%
+    margin-left 5%
+
+@media screen and (max-width: 1080px) 
+    .workspace
+        width 65%
+        margin-left 0
+
 
 .actions
     display flex
@@ -160,6 +220,24 @@ h1
 .v-enter-from,
 .v-leave-to {
   opacity: 0;
+}
+
+.wsp-move, /* apply transition to moving elements */
+.wsp-enter-active,
+.wsp-leave-active {
+  transition: all 0.5s ease;
+}
+
+.wsp-enter-from,
+.wsp-leave-to {
+  opacity: 0;
+  transform: translateX(30px);
+}
+
+/* ensure leaving items are taken out of layout flow so that moving
+   animations can be calculated correctly. */
+.wsp-leave-active {
+  position: absolute;
 }
 
 </style>

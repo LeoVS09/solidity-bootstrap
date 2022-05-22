@@ -20,7 +20,7 @@ const onClick = (event: any) => {
 .secondary-button {
     display: block;
     width: 100%;
-    min-width: 30%;
+    min-width: 100%;
     height: 3rem;
     margin: 1rem auto;
     max-width: 10rem;

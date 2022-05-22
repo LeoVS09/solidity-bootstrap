@@ -1,22 +1,23 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, toRefs, computed} from 'vue'
 
-const {apyMetric, tokens} = defineProps<{ apyMetric: number, tokens: number }>()
+const props = defineProps<{ apyMetric: number, tokens: number }>()
+const {apyMetric, tokens} = toRefs(props)
 
-const stakedAmount = ref(0)
-if(tokens > 0) {
-    stakedAmount.value = tokens
-} else {
-    stakedAmount.value = 100
-}
+const stakedAmount = computed(() => {
+    if(tokens.value > 0) {
+        return tokens.value
+    } else {
+        return 100
+    }
+})
 
-const expectedReward = ref(0)
+const expectedReward =  computed(() => (stakedAmount.value * apyMetric.value) + stakedAmount.value)
 
-expectedReward.value = stakedAmount.value * apyMetric
 </script>
 
 <template>
-    <p class="apy-description">With current <Highlight>APY {{apyMetric * 100}}%</Highlight> in next year you will have <Highlight>{{expectedReward}} USDT</Highlight> for staked <Highlight>{{stakedAmount}} USDT</Highlight><Highlight></Highlight></p>
+    <p class="apy-description">With current <Highlight>APY {{(apyMetric * 100).toFixed(2)}}%</Highlight> in next year you will have <Highlight>{{expectedReward.toFixed(2)}} USDT</Highlight> for staked <Highlight>{{stakedAmount}} USDT</Highlight><Highlight></Highlight></p>
 </template>
 
 <style lang="stylus">

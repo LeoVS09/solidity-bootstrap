@@ -45,11 +45,11 @@ const updateValue = (event: any) => {
 .money-row
     display flex
     flex-direction row
-    width 30%
+    width 100%
     align-items left
 
 .currency-info
-    width 30%
+    width 100%
     display flex
     flex-direction row
     align-items center
