@@ -1,12 +1,18 @@
 {
   "compilerOptions": {
-    "target": "es2018",
-    "module": "commonjs",
+    "target": "esnext",
+    "useDefineForClassFields": true,
+    "module": "esnext",
+    "moduleResolution": "node",
     "strict": true,
+    "jsx": "preserve",
+    "sourceMap": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
     "esModuleInterop": true,
-    "outDir": "dist",
-    "declaration": true
+    "lib": ["esnext", "dom"],
+    "skipLibCheck": true
   },
-  "include": ["./scripts", "./test", "./typechain"],
-  "files": ["./hardhat.config.ts"]
+  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"],
+  "references": [{ "path": "./tsconfig.node.json" }]
 }

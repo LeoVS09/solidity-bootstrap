@@ -2,22 +2,24 @@
 
 Simple example project for solidity based contracts development
 
-> This project demonstrates an advanced Hardhat use case, integrating other tools commonly used alongside [Hardhat](https://hardhat.org/getting-started/) in the ecosystem.
-
-The project comes with a sample contract, a test for that contract, a sample script that deploys that contract, and an example of a task implementation, which simply lists the available accounts. It also comes with a variety of other tools, preconfigured to work with the project code.
+> Project based on [Vue](https://vuejs.org/) and build on [Vite](https://vitejs.dev/). It uses Web3 as RPC client
 
 ## Bostrap Variants
 
-* [Plain JavaScript](https://github.com/LeoVS09/solidity-bootstrap/tree/plain-javascript) - dApp without any front-end framework on [Truffle](https://github.com/trufflesuite/truffle).
-* [React](https://github.com/LeoVS09/solidity-bootstrap/tree/react) - dApp with React framework on [Truffle](https://github.com/trufflesuite/truffle).
-* [React Redux](https://github.com/LeoVS09/solidity-bootstrap/tree/react-redux) - dApp with React and Redux frameworks on [Truffle](https://github.com/trufflesuite/truffle).
-* [Vue Vite](https://github.com/LeoVS09/solidity-bootstrap/tree/vue) - dApp with [Vue](https://vuejs.org/) build on [Vite](https://vitejs.dev/). For connection used [Web3](https://github.com/ChainSafe/web3.js)
+* [Plain JavaScript](https://github.com/LeoVS09/solidity-bootstrap/tree/plain-javascript) - dApp without any front-end framework.
+* [React](https://github.com/LeoVS09/solidity-bootstrap/tree/react) - dApp with React framework.
+* [React Redux](https://github.com/LeoVS09/solidity-bootstrap/tree/react-redux) - dApp with React and Redux frameworks.
+* [Hardhat](https://github.com/LeoVS09/solidity-bootstrap/tree/hardhat) - smart contract development enviroment.
 
 ## Requirements
 
 * [Hardhat](https://hardhat.org/getting-started/#installation) - development environment to compile, deploy, test, and debug your Ethereum software
 
 ## Development
+
+### Recommended IDE Setup
+
+* [VS Code](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=johnsoncodehk.volar)
 
 ## First Start Guide
 
@@ -67,4 +69,17 @@ npx hardhat verify --network ropsten DEPLOYED_CONTRACT_ADDRESS "Hello, Hardhat!"
 
 ## Performance optimizations
 
-For faster runs of your tests and scripts, consider skipping ts-node's type checking by setting the environment variable `TS_NODE_TRANSPILE_ONLY` to `1` in hardhat's environment. For more details see [the documentation](https://hardhat.org/guides/typescript.html#performance-optimizations).
+* `truffle compile` - Compile
+* `truffle migrate` - Migrate
+* `truffle test` - Test contracts
+* `npm run dev` - Run dev server
+* `truffle develop` - launch test blockchain with the Truffle Develop console
+* `truffle create contract YourContractName` - scaffold a contract
+* `truffle create test YourTestName` - scaffold a test
+* `ganache` - start etherum light node
+
+### First Start Guide
+
+* Run `ganache` for start etherum node
+* Run `truffle migrate` for deploy contracts
+* Run `cd app && yarn dev` for start dApp development server
