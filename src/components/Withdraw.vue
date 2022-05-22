@@ -1,6 +1,6 @@
 <template>
     <div>
-        <SecondaryButton @click="withdraw">Withdraw</SecondaryButton>
+        <SecondaryButton @click="withdraw" :disabled="disabled">Withdraw</SecondaryButton>
     </div>
 </template>
 
@@ -47,11 +47,19 @@ export default defineComponent({
         this.usdt = await getUSDT(this.web3 as Web3);
     },
 
+    computed: {
+        disabled() {
+            return (+(this.amount || '0') ) <= 0
+        }
+    },
+
     methods: {
         async withdraw() {
+            if(this.disabled){
+                return
+            }
             const {toBN} = (this.web3 as Web3)!.utils
-            const usdtBasis = toBN('1')
-            const amount = toBN(this.amount!).mul(usdtBasis)
+            const amount = toBN(this.amount!)
 
             await this.vault!.methods.withdraw(amount, '1').send({ from: this.account })
 

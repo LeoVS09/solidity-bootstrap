@@ -45,7 +45,7 @@ const onClick = (event: any) => {
         position: absolute;
         top: -10%;
         left: -10%;
-        height: 120%;
+        height: 150%;
         width: 120%;
         filter: blur(20px);
         transition: all 0.3s cubic-bezier(.25,.8,.25,1);

@@ -69,7 +69,7 @@ const investmentRatio = computed(() => (+investedAssets.value) / (+totalAssets.v
     display flex
     flex-direction column
     text-align right
-    min-width 9rem
+    min-width 8rem
     
 .tlv
     font-size 2.5rem
