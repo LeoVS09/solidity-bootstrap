@@ -6,6 +6,10 @@ import { AntDesignVueResolver } from 'unplugin-vue-components/resolvers';
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  base: 'solidity-bootstrap',
+  build: {
+    outDir: 'docs'
+  },
   plugins: [
     vue(), 
     Components({
