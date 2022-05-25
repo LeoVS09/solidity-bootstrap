@@ -3,7 +3,7 @@
     <Transition>
       <div v-if="!started"></div>
       <Login v-else-if="!web3 || !account" />
-      <Staking v-else :web3="web3" :account="account" />
+      <Staking v-else :web3="(web3 as any)" :account="account" />
     </Transition>
   </main>
 </template>

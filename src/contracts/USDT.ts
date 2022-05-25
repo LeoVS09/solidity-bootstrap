@@ -15,7 +15,11 @@ export function getUSDT(web3: Web3): USDT {
 }
 
 const {toBN} = Web3.utils
-const usdtBasis = toBN(`${10 ** 6}`) // USDT have basis of 6
+// USDT in Etherium have basis of 6
+// const usdtBasis = toBN(`${10 ** 6}`) 
+
+// USDT in BSC have basis of 18
+const usdtBasis = toBN(`${10 ** 18}`) 
 
 export function toUSDT(amount: string) {
     return toBN(amount).div(usdtBasis).toString()

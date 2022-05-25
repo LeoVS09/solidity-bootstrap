@@ -10,7 +10,7 @@ export interface SharesInputProps {
     contractAddress: string
 }
 
-const {web3, address} = defineProps<SharesInputProps>()
+defineProps<SharesInputProps>()
 
 const emit = defineEmits(['update:value'])
 

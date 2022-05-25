@@ -5,7 +5,6 @@ import '@vue/runtime-core'
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
-    ABadge: typeof import('ant-design-vue/es')['Badge']
     Account: typeof import('./src/components/Account.vue')['default']
     ADivider: typeof import('ant-design-vue/es')['Divider']
     ApyDescription: typeof import('./src/components/ApyDescription.vue')['default']
@@ -13,25 +12,18 @@ declare module '@vue/runtime-core' {
     ASteps: typeof import('ant-design-vue/es')['Steps']
     ATooltip: typeof import('ant-design-vue/es')['Tooltip']
     Contract: typeof import('./src/components/Contract.vue')['default']
-    'Contract copy': typeof import('./src/components/Contract copy.vue')['default']
     Currency: typeof import('./src/components/Currency.vue')['default']
     Highlight: typeof import('./src/components/Highlight.vue')['default']
-    InvestementInfo: typeof import('./src/components/InvestementInfo.vue')['default']
     InvestmentInfo: typeof import('./src/components/InvestmentInfo.vue')['default']
     Login: typeof import('./src/components/Login.vue')['default']
     MoneyInput: typeof import('./src/components/MoneyInput.vue')['default']
     PayButton: typeof import('./src/components/PayButton.vue')['default']
-    'PayButton copy': typeof import('./src/components/PayButton copy.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     SecondaryButton: typeof import('./src/components/SecondaryButton.vue')['default']
-    SharesBalance: typeof import('./src/components/SharesBalance.vue')['default']
     SharesInput: typeof import('./src/components/SharesInput.vue')['default']
-    'SharesInput copy': typeof import('./src/components/SharesInput copy.vue')['default']
     Stake: typeof import('./src/components/Stake.vue')['default']
-    UsdtBalance: typeof import('./src/components/UsdtBalance.vue')['default']
     UsdtInput: typeof import('./src/components/UsdtInput.vue')['default']
-    'UsdtInput copy': typeof import('./src/components/UsdtInput copy.vue')['default']
     VaultInfo: typeof import('./src/components/VaultInfo.vue')['default']
     Withdraw: typeof import('./src/components/Withdraw.vue')['default']
   }

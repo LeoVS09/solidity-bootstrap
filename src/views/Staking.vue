@@ -1,4 +1,4 @@
-getApy<script setup lang="ts">
+<script setup lang="ts">
 import { ref, onBeforeMount, computed } from 'vue'
 import Web3 from 'web3'
 import { SwapOutlined } from '@ant-design/icons-vue';

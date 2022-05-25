@@ -22,7 +22,10 @@ export function fromApy(amount: number) {
 }
 
 // Etherium Mainnet
-const BLOCKS_PER_YEAR = 6_500 * 365
+// const BLOCKS_PER_YEAR = 6_500 * 365
+
+// BSC Mainnet
+const BLOCKS_PER_YEAR = 28683 * 365
 
 export async function getApy(strategy: ERC20DforceStrategy) {
     const supplyRate = fromApy(+(await strategy.methods.supplyRatePerBlock().call()));
