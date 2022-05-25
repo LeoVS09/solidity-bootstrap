@@ -4,6 +4,8 @@ Simple example project for solidity based contracts development
 
 > Project based on [Vue](https://vuejs.org/) and build on [Vite](https://vitejs.dev/). It uses Web3 as RPC client
 
+[Application Demo](https://leovs09.github.io/solidity-bootstrap/)
+
 ## Bostrap Variants
 
 * [Plain JavaScript](https://github.com/LeoVS09/solidity-bootstrap/tree/plain-javascript) - dApp without any front-end framework.
