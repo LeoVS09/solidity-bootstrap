@@ -3,7 +3,7 @@ import Home from './views/Home.vue'
 import About from './views/About.vue'
 
 export default Router.createRouter({
-  history: Router.createWebHistory(),
+  history: Router.createWebHistory(import.meta.env.VITE_BASE_URL),
   routes: [
     {
       path: '/',
