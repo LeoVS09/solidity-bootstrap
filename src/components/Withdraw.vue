@@ -7,7 +7,7 @@
 <script lang="ts">
 import {defineComponent} from 'vue'
 import Web3 from 'web3'
-import { USDT, getUSDT } from '../contracts/USDT'
+import { USDT, getUSDT, fromUSDT } from '../contracts/USDT'
 import { InvestmentVault, getInvestmentVault } from '../contracts/InvestmentVault'
 import SecondaryButton from '../components/SecondaryButton.vue'
 
@@ -58,8 +58,8 @@ export default defineComponent({
             if(this.disabled){
                 return
             }
-            const {toBN} = (this.web3 as Web3)!.utils
-            const amount = toBN(this.amount!)
+            
+            const amount = fromUSDT(this.amount!)
 
             await this.vault!.methods.withdraw(amount, '1').send({ from: this.account })
 

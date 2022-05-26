@@ -81,7 +81,7 @@ console.log('sharesBalance.value', sharesBalance.value, hasShares.value, totalAs
 const stakeValue = computed(() => ((+tokens.value) + (+totalAssets.value)) || 0)
 console.log('stakeValue', +stakeValue.value, tokens.value, +totalAssets.value)
 
-
+const sharesBalanceDisplay = computed(() => sharesBalance.value && toUSDT(sharesBalance.value))
 </script>
 
 <template>
@@ -124,7 +124,7 @@ console.log('stakeValue', +stakeValue.value, tokens.value, +totalAssets.value)
                         <Withdraw v-if="hasShares"  :web3="web3" :account="account" :amount="shares" />
                     </div>
                     
-                    <SharesInput v-if="hasShares" key="to-withdraw" v-model:value="shares" :balance="sharesBalance" :contractAddress="vaultContractAddress" />
+                    <SharesInput v-if="hasShares" key="to-withdraw" v-model:value="shares" :balance="sharesBalanceDisplay" :contractAddress="vaultContractAddress" />
                 </TransitionGroup>
             </div>
 

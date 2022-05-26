@@ -14,17 +14,20 @@ export function getUSDT(web3: Web3): USDT {
     return getContract<USDT>(web3, USDTAbi as any, address)
 }
 
-const {toBN} = Web3.utils
+const {toBN, toWei, fromWei} = Web3.utils
 // USDT in Etherium have basis of 6
-// const usdtBasis = toBN(`${10 ** 6}`) 
+// const usdtBasis = toBN(`${10 ** 6}`)  
+// const usdtUnit = 'mwei'
 
 // USDT in BSC have basis of 18
-const usdtBasis = toBN(`${10 ** 18}`) 
+// const usdtBasis = toBN(`${10 ** 18}`) 
+const usdtUnit = 'ether'
 
 export function toUSDT(amount: string) {
-    return toBN(amount).div(usdtBasis).toString()
+    return fromWei(amount, usdtUnit).toString()
 }
 
-export function fromUSDT(amount: string) {
-    return toBN(amount).mul(usdtBasis).toString()
+export function fromUSDT(amount: string ) {
+    // correct only for basis 10^18
+    return toWei(amount, usdtUnit).toString()
 }
