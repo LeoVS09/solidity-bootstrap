@@ -14,7 +14,7 @@ import Web3 from 'web3'
 import { getAccount } from '../web3/getAccount'
 import {getWeb3} from '../web3/getWeb3'
 import Staking from './Staking.vue'
-import Login from '../components/Login.vue'
+import Login from './Login.vue'
 
 export interface AppData {
   web3: Web3 | null;
