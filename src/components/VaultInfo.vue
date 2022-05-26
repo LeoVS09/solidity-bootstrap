@@ -17,7 +17,7 @@ console.log('investmentRatio', investmentRatio.value, investedAssets, totalAsset
 <template>
     <div class="container">
         <p class="description">Total Locked Value</p>
-        <h2 class="tlv">$ {{`${totalAssets}`.includes('.') ? totalAssets : `${totalAssets}` + '.00'}}</h2>
+        <h2 class="tlv">$ {{`${totalAssets}`.includes('.') ? (+totalAssets).toFixed(2) : `${totalAssets}` + '.00'}}</h2>
         <p class="additional-info">Invested {{(investmentRatio * 100).toFixed(2)}}%</p>
     </div>
 </template>

@@ -51,21 +51,26 @@ onBeforeMount(async () => {
         sharesBalance.value = await vault.methods.balanceOf(account!).call()
         totalAssets.value = toUSDT(await vault.methods.totalAssets().call())
         investedAssets.value = toUSDT(await strategy.methods.totalAssets().call())
+        console.log('updateInfo', sharesBalance.value, totalAssets.value, investedAssets.value)
     }
     await updateInfo()
     vault.events.Transfer(async () => {
+        console.log('vault.events.Transfer')
         await updateInfo()
     })
 
     vault.events.Deposit(async () => {
+        console.log('vault.events.Deposit')
         await updateInfo()
     })
 
     strategy.events.Borrowed(async () => {
+        console.log('strategy.events.Borrowed')
         await updateInfo()
     })
 
     strategy.events.PutInStake(async () => {
+        console.log('strategy.events.PutInStake')
         await updateInfo()
     })
 

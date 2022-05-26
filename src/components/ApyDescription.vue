@@ -17,7 +17,7 @@ const expectedReward =  computed(() => (stakedAmount.value * apyMetric.value) + 
 </script>
 
 <template>
-    <p class="apy-description">With current <Highlight>APY {{(apyMetric * 100).toFixed(2)}}%</Highlight> in next year you will have <Highlight>{{expectedReward.toFixed(2)}} USDT</Highlight> for staked <Highlight>{{stakedAmount}} USDT</Highlight><Highlight></Highlight></p>
+    <p class="apy-description">With current <Highlight>APY {{(apyMetric * 100).toFixed(2)}}%</Highlight> in next year you will have <Highlight>{{expectedReward.toFixed(2)}} USDT</Highlight> for staked <Highlight>{{stakedAmount.toFixed(2)}} USDT</Highlight><Highlight></Highlight></p>
 </template>
 
 <style lang="stylus">
