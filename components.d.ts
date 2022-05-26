@@ -15,7 +15,6 @@ declare module '@vue/runtime-core' {
     Currency: typeof import('./src/components/Currency.vue')['default']
     Highlight: typeof import('./src/components/Highlight.vue')['default']
     InvestmentInfo: typeof import('./src/components/InvestmentInfo.vue')['default']
-    Login: typeof import('./src/components/Login.vue')['default']
     MoneyInput: typeof import('./src/components/MoneyInput.vue')['default']
     PayButton: typeof import('./src/components/PayButton.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
