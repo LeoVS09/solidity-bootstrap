@@ -5,35 +5,12 @@ import MoneyInput from './MoneyInput.vue'
 import { USDT, getUSDT, toUSDT } from '../contracts/USDT'
 
 export interface UsdtBalanceProps {
-    web3: Web3
-    address: string
+    balance: string
+    contractAddress: string
     value: string
 }
 
-const {web3, address} = defineProps<UsdtBalanceProps>()
-
-
-
-const balance = ref('')
-const contractAddress = ref('')
-
-onBeforeMount(async () => {
-    const contract = await getUSDT(web3 as Web3);
-    contractAddress.value = (contract as any)?._address
-
-    async function updateBalance(){
-        balance.value = toUSDT(await contract.methods.balanceOf(address!).call())
-
-        console.log('usdt.updateBalance', balance.value)
-    }
-
-    await updateBalance()
-    contract.events.Transfer(async () => {
-        console.log('contract.events.Transfer')
-        await updateBalance()
-    })
-})
-
+defineProps<UsdtBalanceProps>()
 
 const emit = defineEmits(['update:value'])
 
@@ -47,7 +24,6 @@ const updateValue = (event: any) => {
     <MoneyInput 
         :value="value" @input="updateValue"
         :address="contractAddress" 
-        :key="balance"
         :balance="balance"
         currency="USDT"
         ><img alt="USDT Symbol" class="symbol" src="../assets/usdt-crypto-cryptocurrency-cryptocurrencies-cash-money-bank-payment_95467.svg"/>

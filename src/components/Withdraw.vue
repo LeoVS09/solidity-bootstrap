@@ -25,6 +25,10 @@ export interface StakeData {
 export default defineComponent({
     name: "Withdraw",
 
+    emits: {
+        withdrew: null
+    },
+
     props: {
         web3: Object,
         account: String,
@@ -63,6 +67,7 @@ export default defineComponent({
 
             await this.vault!.methods.withdraw(amount, '1').send({ from: this.account })
 
+            this.$emit('withdrew')
         }
     }
 

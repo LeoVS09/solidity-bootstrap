@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, toRefs } from 'vue'
 import Currency from './Currency.vue'
 import { compactInteger } from '../humanize/compactInteger'
 
@@ -10,9 +10,10 @@ export interface MoneyProps {
     currency: string
 }
 
-const {value, address, balance} = defineProps<MoneyProps>()
-console.log('props', balance)
-const displayBalance = computed(() => balance && compactInteger(balance))
+const props = defineProps<MoneyProps>()
+console.log('props', props)
+const {value, address, balance} = toRefs(props)
+const displayBalance = computed(() => balance.value && compactInteger(balance.value))
 
 const emit = defineEmits(['update:value'])
 

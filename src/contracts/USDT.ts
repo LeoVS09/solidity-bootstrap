@@ -21,7 +21,10 @@ const {toBN, toWei, fromWei} = Web3.utils
 
 // USDT in BSC have basis of 18
 // const usdtBasis = toBN(`${10 ** 18}`) 
-const usdtUnit = 'ether'
+// const usdtUnit = 'ether'
+
+const usdtUnit = import.meta.env.VITE_CONTRACT_USDT_UNIT || 'ether'
+console.log('Will use USDT unit', usdtUnit)
 
 export function toUSDT(amount: string) {
     return fromWei(amount, usdtUnit).toString()

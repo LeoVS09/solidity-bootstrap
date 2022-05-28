@@ -11,7 +11,7 @@ import VaultInfo from '../components/VaultInfo.vue'
 import InvestmentInfo from '../components/InvestmentInfo.vue'
 import {getInvestmentVault} from '../contracts/InvestmentVault'
 import {getStrategy, getApy} from '../contracts/ERC20DforceStrategy'
-import { toUSDT } from '../contracts/USDT';
+import { USDT, getUSDT, toUSDT } from '../contracts/USDT'
 
 const {account, web3} = defineProps<{ account: string, web3: Web3 }>()
 
@@ -19,6 +19,9 @@ const tokens = ref('')
 const shares = ref('')
 
 const stakeStep = ref(-1)
+// hack for connection pooling
+// remove when https://github.com/MetaMask/metamask-extension/issues/2393 will be solved
+const triggerBalanceUpdate = ref(() => {})
 
 function updateStateStep(value: number){
     if(value === StakeSteps.Invest) {
@@ -27,10 +30,17 @@ function updateStateStep(value: number){
 
     if(value === StakeSteps.Finished) {
         stakeStep.value = -1
+        triggerBalanceUpdate.value()
         return
     }
 
     stakeStep.value = value
+
+    triggerBalanceUpdate.value()
+}
+
+function onWithdrew(){
+    triggerBalanceUpdate.value()
 }
 
 const sharesBalance = ref('0')
@@ -39,20 +49,29 @@ const vaultContractAddress = ref('0')
 const totalAssets = ref('0')
 const investedAssets = ref('0')
 
+const usdtBalance = ref('')
+const usdtContractAddress = ref('')
+
 const apy = ref(0)
 
 onBeforeMount(async () => {
     const vault = await getInvestmentVault(web3);
     vaultContractAddress.value = (vault as any)?._address
 
+    const usdt = await getUSDT(web3)
+    usdtContractAddress.value = (usdt as any)?._address
+
     const strategy = await getStrategy(web3)
 
-    async function updateInfo(){
+    const updateInfo = async () => {
         sharesBalance.value = await vault.methods.balanceOf(account!).call()
         totalAssets.value = toUSDT(await vault.methods.totalAssets().call())
         investedAssets.value = toUSDT(await strategy.methods.totalAssets().call())
-        console.log('updateInfo', sharesBalance.value, totalAssets.value, investedAssets.value)
+        usdtBalance.value = toUSDT(await usdt.methods.balanceOf(account!).call())
+        console.log('updateInfo', sharesBalance.value, totalAssets.value, investedAssets.value, usdtBalance.value)
     }
+    triggerBalanceUpdate.value = updateInfo
+
     await updateInfo()
     vault.events.Transfer(async () => {
         console.log('vault.events.Transfer')
@@ -71,6 +90,11 @@ onBeforeMount(async () => {
 
     strategy.events.PutInStake(async () => {
         console.log('strategy.events.PutInStake')
+        await updateInfo()
+    })
+
+    usdt.events.Transfer(async () => {
+        console.log('contract.events.Transfer')
         await updateInfo()
     })
 
@@ -119,14 +143,14 @@ const sharesBalanceDisplay = computed(() => sharesBalance.value && toUSDT(shares
         <div class="workspace-container">
             <div class="workspace">
                 <TransitionGroup name="wsp">
-                    <UsdtInput key="to-stake" v-model:value="tokens" :web3="web3" :address="account" />  
+                    <UsdtInput key="to-stake" v-model:value="tokens" :balance="usdtBalance" :contractAddress="usdtContractAddress" />  
 
                     <div class="actions" key="action">
                         <Stake :web3="web3" :account="account" :amount="tokens" @step="updateStateStep" />
                         <div v-if="hasShares" class="actions-divider">
                             <swap-outlined :rotate="90"/>
                         </div>
-                        <Withdraw v-if="hasShares"  :web3="web3" :account="account" :amount="shares" />
+                        <Withdraw v-if="hasShares"  :web3="web3" :account="account" :amount="shares" @withdrew="onWithdrew" />
                     </div>
                     
                     <SharesInput v-if="hasShares" key="to-withdraw" v-model:value="shares" :balance="sharesBalanceDisplay" :contractAddress="vaultContractAddress" />
