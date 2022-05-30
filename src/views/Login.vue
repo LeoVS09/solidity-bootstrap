@@ -21,6 +21,10 @@
     line-height 18rem
     text-transform uppercase
 
+@media screen and (max-height: 900px) 
+    .text
+        line-height 14rem
+
 @media screen and (max-width: 1550px) 
     .text
         font-size 12rem
@@ -29,6 +33,10 @@
     .text
         line-height 14rem
         font-size 10rem
+
+@media screen and (max-height: 800px) 
+    .text
+        line-height 10rem
 
 @media screen and (max-width: 1100px) 
     .text
